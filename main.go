@@ -107,13 +107,13 @@ func broadcastToWebSocketClients(message []byte) {
 
 		// Step 2: Based on the Type field, unmarshal into the appropriate struct
 		switch genericMsg.Type {
-		case "ApiCallAttempt":
-			var apiCallAttempt ApiCallAttempt
-			err := json.Unmarshal(message, &apiCallAttempt)
-			if err != nil {
-				log.Fatalf("Error unmarshalling ApiCallAttempt: %v", err)
-			}
-			fmt.Printf("Parsed ApiCallAttempt: %+v\n", apiCallAttempt)
+		//case "ApiCallAttempt":
+		//	var apiCallAttempt ApiCallAttempt
+		//	err := json.Unmarshal(message, &apiCallAttempt)
+		//	if err != nil {
+		//		log.Fatalf("Error unmarshalling ApiCallAttempt: %v", err)
+		//	}
+		//	fmt.Printf("Parsed ApiCallAttempt: %+v\n", apiCallAttempt)
 
 		case "ApiCall":
 			var apiCall ApiCall
@@ -140,6 +140,7 @@ func broadcastToWebSocketClients(message []byte) {
 				"latency":  apiCall.Latency,
 				"color":    color,
 				"api":      fmt.Sprintf("%s:%s", apiCall.Service, apiCall.Api),
+				"service":  apiCall.Service,
 				"response": apiCall.FinalHttpStatusCode,
 			})
 			if err != nil {
@@ -148,7 +149,7 @@ func broadcastToWebSocketClients(message []byte) {
 			}
 
 		default:
-			log.Fatalf("Unknown message Type: %s", genericMsg.Type)
+			print("Unknown message Type: %s", genericMsg.Type)
 		}
 
 	}
@@ -213,6 +214,8 @@ func main() {
 
 	// Serve the dashboard UI
 	r.GET("/", serveDashboard)
+
+	r.Static("/css", "./css")
 
 	r.Run(":8080")
 

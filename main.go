@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"log"
 	"net"
 	"net/http"
 	"time"
@@ -42,6 +43,11 @@ type ApiCall struct {
 	FinalHttpStatusCode int    `json:"FinalHttpStatusCode"`
 	Latency             int    `json:"Latency"`
 	MaxRetriesExceeded  int    `json:"MaxRetriesExceeded"`
+}
+
+// GenericMessage to capture the "Type" field before determining struct
+type GenericMessage struct {
+	Type string `json:"Type"`
 }
 
 // WebSocket upgrader
@@ -91,43 +97,60 @@ var wsClients = make([]*websocket.Conn, 0)
 // Goroutine-safe function to broadcast to all WebSocket clients
 func broadcastToWebSocketClients(message []byte) {
 	for _, client := range wsClients {
-		//err := client.WriteMessage(websocket.TextMessage, message)
-		// Send data as JSON to the client
 
-		// Deserialize ApiCall
-		var apiCall ApiCall
-		err := json.Unmarshal(message, &apiCall)
+		// Step 1: Unmarshal the Type field first
+		var genericMsg GenericMessage
+		err := json.Unmarshal(message, &genericMsg)
 		if err != nil {
-			fmt.Println("Error unmarshalling ApiCall:", err)
-		} else {
-			fmt.Printf("ApiCall: %+v\n", apiCall)
-			if apiCall.Type == "ApiCall" {
-				seconds := apiCall.Timestamp / 1000
-				nanoseconds := (apiCall.Timestamp % 1000) * 1e6
-
-				// Convert Unix timestamp to time.Time
-				dt := time.Unix(seconds, nanoseconds)
-				// Generate a random color in hex format
-				color := "#FF0000"
-
-				if apiCall.FinalHttpStatusCode == 200 {
-					color = "00FF00"
-				}
-
-				//dt.Format(time.RFC3339),
-				err = client.WriteJSON(map[string]interface{}{
-					"datetime": dt.Format("2006-01-02 15:04:05"),
-					"latency":  apiCall.Latency,
-					"color":    color,
-					"api":      fmt.Sprintf("%s:%s", apiCall.Service, apiCall.Api),
-					"response": apiCall.FinalHttpStatusCode,
-				})
-				if err != nil {
-					fmt.Println("Error sending WebSocket message:", err)
-					_ = client.Close() // Close the connection if there's an error
-				}
-			}
+			log.Fatalf("Error unmarshalling generic message: %v", err)
 		}
+
+		// Step 2: Based on the Type field, unmarshal into the appropriate struct
+		switch genericMsg.Type {
+		case "ApiCallAttempt":
+			var apiCallAttempt ApiCallAttempt
+			err := json.Unmarshal(message, &apiCallAttempt)
+			if err != nil {
+				log.Fatalf("Error unmarshalling ApiCallAttempt: %v", err)
+			}
+			fmt.Printf("Parsed ApiCallAttempt: %+v\n", apiCallAttempt)
+
+		case "ApiCall":
+			var apiCall ApiCall
+			err := json.Unmarshal(message, &apiCall)
+			if err != nil {
+				log.Fatalf("Error unmarshalling ApiCall: %v", err)
+			}
+			fmt.Printf("Parsed ApiCall: %+v\n", apiCall)
+			seconds := apiCall.Timestamp / 1000
+			nanoseconds := (apiCall.Timestamp % 1000) * 1_000_000
+
+			// Convert Unix timestamp to time.Time
+			dt := time.Unix(seconds, nanoseconds)
+			// Generate a random color in hex format
+			color := "#FF0000"
+
+			if apiCall.FinalHttpStatusCode == 200 {
+				color = "00FF00"
+			}
+
+			//dt.Format(time.RFC3339),
+			err = client.WriteJSON(map[string]interface{}{
+				"datetime": dt.Format("2006-01-02 15:04:05.000"),
+				"latency":  apiCall.Latency,
+				"color":    color,
+				"api":      fmt.Sprintf("%s:%s", apiCall.Service, apiCall.Api),
+				"response": apiCall.FinalHttpStatusCode,
+			})
+			if err != nil {
+				fmt.Println("Error sending WebSocket message:", err)
+				_ = client.Close() // Close the connection if there's an error
+			}
+
+		default:
+			log.Fatalf("Unknown message Type: %s", genericMsg.Type)
+		}
+
 	}
 }
 

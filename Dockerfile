@@ -24,6 +24,7 @@ WORKDIR /aws-client-monitor
 # Copy the compiled Go binary from the builder image
 COPY --from=builder /aws-client-monitor/aws-client-monitor .
 COPY templates /aws-client-monitor/templates
+COPY css /aws-client-monitor/css
 
 # Expose both UDP and TCP ports
 EXPOSE 31000/udp

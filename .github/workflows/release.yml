@@ -16,5 +16,10 @@ jobs:
       - name: Install GitHub CLI
         run: sudo apt-get install gh
 
-      - name: Create Release Notes
+      - name: Set up GitHub CLI
+        run: gh auth login --with-token <<< "${{ secrets.GH_TOKEN }}"
+
+      - name: Generate release notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release create ${{ github.ref_name }} --generate-notes

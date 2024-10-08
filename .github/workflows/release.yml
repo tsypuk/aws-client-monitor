@@ -1,0 +1,20 @@
+name: Generate Release Notes
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh
+
+      - name: Create Release Notes
+        run: gh release create ${{ github.ref_name }} --generate-notes

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.7](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.7) - 2024-10-12
+
+<small>[Compare with v0.0.6](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.6...v0.0.7)</small>
+
+### Chore
+
+- update go mod with swagger module ([7eb39fd](https://github.com/tsypuk/aws-client-monitor/commit/7eb39fda50b37c7d0faf8a194dd5879b2eebe0e9) by Roman Tsypuk).
+
 ## [v0.0.6](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.6) - 2024-10-12
 
 <small>[Compare with v0.0.5](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.5...v0.0.6)</small>

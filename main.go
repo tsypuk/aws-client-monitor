@@ -1,10 +1,13 @@
 package main
 
 import (
+	"aws-client-monitor/docs"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net"
 	"net/http"
 	"time"
@@ -144,6 +147,23 @@ func broadcastToWebSocketClients(message []byte) {
 	}
 }
 
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} running
+// @Router /status [get]
+func statusHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "running",
+	})
+}
+
 // WebSocket handler, to handle new connections
 func wsHandler(c *gin.Context) {
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
@@ -196,6 +216,15 @@ func main() {
 
 	// start web-server
 	r := gin.Default()
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	v1 := r.Group("/api/v1")
+	{
+		v1.GET("/status", statusHandler)
+		//eg := v1.Group("/example")
+		//{
+		//	eg.GET("/helloworld", Helloworld)
+		//}
+	}
 	r.LoadHTMLFiles("templates/dashboard.html")
 
 	// Serve WebSocket for live updates
@@ -205,6 +234,9 @@ func main() {
 	r.GET("/", serveDashboard)
 
 	r.Static("/css", "./css")
+
+	// Route to access the Swagger documentation
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	r.Run(":8080")
 

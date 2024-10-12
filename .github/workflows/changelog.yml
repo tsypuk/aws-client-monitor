@@ -1,0 +1,37 @@
+name: Release Changelog
+
+on:
+  workflow_dispatch: # Only runs on manual trigger via GitHub UI or API
+#  push:
+#    tags:
+#      - 'v*.*.*'  # This triggers on semantic version tag pushes (e.g., v1.0.0)
+
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # or the version you prefer
+
+      - name: Install conventional-changelog
+        run: |
+          npm install -g conventional-changelog-cli
+
+      - name: Generate Changelog
+        run: |
+          conventional-changelog -p angular -i CHANGELOG.md -s -r 0
+          git config user.name "Roman Tsypuk"
+          git config user.email tsypuk.conf@gmail.com
+          git add CHANGELOG.md
+          git commit -m "chore(release): update changelog"
+          git push origin HEAD:main

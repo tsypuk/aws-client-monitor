@@ -3,7 +3,7 @@ name: Build and Push Multiarch Docker Image
 on:
   push:
     branches:
-      - main
+      - main2
 
 jobs:
   build:

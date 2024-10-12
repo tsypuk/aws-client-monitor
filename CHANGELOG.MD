@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.6](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.6) - 2024-10-12
+
+<small>[Compare with v0.0.5](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.5...v0.0.6)</small>
+
+### Features
+
+- fixed import of module ([862d381](https://github.com/tsypuk/aws-client-monitor/commit/862d3818f6a8de8a9be1c6673469bd982e2dd667) by Roman Tsypuk).
+
+### Chore
+
+- updated go.mod github repo refference ([967043f](https://github.com/tsypuk/aws-client-monitor/commit/967043f8832b93494a831f3c42baa7eb6094186b) by Roman Tsypuk).
+
 ## [v0.0.5](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.5) - 2024-10-12
 
 <small>[Compare with v0.0.4](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.4...v0.0.5)</small>

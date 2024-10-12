@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"log"
 	"net"
 	"net/http"
 	"time"
@@ -102,7 +101,7 @@ func broadcastToWebSocketClients(message []byte) {
 		var genericMsg GenericMessage
 		err := json.Unmarshal(message, &genericMsg)
 		if err != nil {
-			log.Fatalf("Error unmarshalling generic message: %v", err)
+			print("Error unmarshalling generic message: %v", err)
 		}
 
 		// Step 2: Based on the Type field, unmarshal into the appropriate struct
@@ -119,7 +118,7 @@ func broadcastToWebSocketClients(message []byte) {
 			var apiCall ApiCall
 			err := json.Unmarshal(message, &apiCall)
 			if err != nil {
-				log.Fatalf("Error unmarshalling ApiCall: %v", err)
+				print("Error unmarshalling ApiCall: %v", err)
 			}
 			fmt.Printf("Parsed ApiCall: %+v\n", apiCall)
 			seconds := apiCall.Timestamp / 1000

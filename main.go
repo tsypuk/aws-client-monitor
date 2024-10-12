@@ -1,13 +1,13 @@
 package main
 
 import (
-	"aws-client-monitor/docs"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/tsypuk/aws-client-monitor/docs"
 	"net"
 	"net/http"
 	"time"

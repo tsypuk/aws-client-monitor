@@ -9,8 +9,9 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the rest of the application code
-COPY main.go .
-COPY templates .
+COPY main.go ./
+COPY templates ./
+COPY docs ./
 
 # Build the Go application
 RUN go build -o aws-client-monitor .

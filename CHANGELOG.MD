@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.4](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.4) - 2024-10-12
+
+<small>[Compare with v0.0.3](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.3...v0.0.4)</small>
+
+### Docs
+
+- generated swagger documentation ([5fb2aaf](https://github.com/tsypuk/aws-client-monitor/commit/5fb2aafebbb9cd23668ec441751b080f1123e6b9) by Roman Tsypuk).
+
+### Features
+
+- included v1 swagger endpoint ([670d035](https://github.com/tsypuk/aws-client-monitor/commit/670d035bcdfd0719552c3473da96fb96c8779cfe) by Roman Tsypuk).
+
+### Chore
+
+- added swagger to makefile ([85fed8d](https://github.com/tsypuk/aws-client-monitor/commit/85fed8dd7a92ddbf14b45e0d70260057265d3850) by Roman Tsypuk).
+- added swagger dependencies ([c384ae1](https://github.com/tsypuk/aws-client-monitor/commit/c384ae1501ffb0398f646f8a65e755506faaea3a) by Roman Tsypuk).
+
 ## [v0.0.3](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.3) - 2024-10-12
 
 <small>[Compare with v0.0.2](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.2...v0.0.3)</small>

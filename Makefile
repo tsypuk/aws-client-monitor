@@ -34,3 +34,6 @@ release: pre-release
 	$(call colorecho, "Push to origin with TAGs...")
 	git push
 	git push --tags
+
+swagger:
+	swag init

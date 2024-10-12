@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.5](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.5) - 2024-10-12
+
+<small>[Compare with v0.0.4](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.4...v0.0.5)</small>
+
+### Chore
+
+- updated dockefile ([1b2e857](https://github.com/tsypuk/aws-client-monitor/commit/1b2e857081f99c37604b570fa28334dfb33baec3) by Roman Tsypuk).
+
 ## [v0.0.4](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.4) - 2024-10-12
 
 <small>[Compare with v0.0.3](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.3...v0.0.4)</small>

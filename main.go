@@ -97,29 +97,20 @@ var wsClients = make([]*websocket.Conn, 0)
 func broadcastToWebSocketClients(message []byte) {
 	for _, client := range wsClients {
 
-		// Step 1: Unmarshal the Type field first
-		var genericMsg GenericMessage
-		err := json.Unmarshal(message, &genericMsg)
+		var apiCallAttempt ApiCallAttempt
+		err := json.Unmarshal(message, &apiCallAttempt)
 		if err != nil {
-			print("Error unmarshalling generic message: %v", err)
+			print("Error unmarshalling ApiCall: %v", err)
+		} else {
+			fmt.Printf("Parsed ApiCall: %+v\n", apiCallAttempt)
+			continue
 		}
 
-		// Step 2: Based on the Type field, unmarshal into the appropriate struct
-		switch genericMsg.Type {
-		//case "ApiCallAttempt":
-		//	var apiCallAttempt ApiCallAttempt
-		//	err := json.Unmarshal(message, &apiCallAttempt)
-		//	if err != nil {
-		//		log.Fatalf("Error unmarshalling ApiCallAttempt: %v", err)
-		//	}
-		//	fmt.Printf("Parsed ApiCallAttempt: %+v\n", apiCallAttempt)
-
-		case "ApiCall":
-			var apiCall ApiCall
-			err := json.Unmarshal(message, &apiCall)
-			if err != nil {
-				print("Error unmarshalling ApiCall: %v", err)
-			}
+		var apiCall ApiCall
+		err = json.Unmarshal(message, &apiCall)
+		if err != nil {
+			print("Error unmarshalling ApiCall: %v", err)
+		} else {
 			fmt.Printf("Parsed ApiCall: %+v\n", apiCall)
 			seconds := apiCall.Timestamp / 1000
 			nanoseconds := (apiCall.Timestamp % 1000) * 1_000_000
@@ -146,11 +137,10 @@ func broadcastToWebSocketClients(message []byte) {
 				fmt.Println("Error sending WebSocket message:", err)
 				_ = client.Close() // Close the connection if there's an error
 			}
-
-		default:
-			print("Unknown message Type: %s", genericMsg.Type)
+			continue
 		}
 
+		print("Unknown message Type: %s", message)
 	}
 }
 

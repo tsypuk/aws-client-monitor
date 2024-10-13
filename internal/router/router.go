@@ -20,11 +20,15 @@ func CreateRouter(router *gin.Engine) *gin.Engine {
 	}
 
 	router.GET("/ws", handler.WsHandler)
-	router.GET("/", handler.ServeRealTime)
+	router.GET("/realtime", handler.ServeRealTime)
 	router.GET("/dashboard", handler.ServeDashBoard)
+	router.GET("/dashboard-layout.html", handler.ServeDashBoardLayout)
 
-	router.LoadHTMLFiles("templates/realtime.html")
-	router.LoadHTMLFiles("templates/dashboard.html")
+	//router.LoadHTMLFiles("templates/realtime.html", "templates/dashboard.html", "templates/dashboard-layout.html")
+	// Load HTML templates
+	router.LoadHTMLGlob("templates/*")
+	//router.LoadHTMLFiles("templates/dashboard.html")
+	//router.LoadHTMLFiles("templates/dashboard-layout.html")
 
 	router.Static("/static", "./static")
 

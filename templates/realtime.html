@@ -5,27 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AWS Latency Dashboard</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles2.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
 </head>
 <body>
-<h1>AWS Latency Dashboard</h1>
-<div id="chart" style="width: 100%; height: 400px;"></div>
 
-<!-- Table to display received data -->
-<table id="data-table">
-    <thead>
-    <tr>
-        <th>Datetime</th>
-        <th>Latency</th>
-        <th>Color</th>
-        <th>Service</th>
-        <th>API</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Rows will be appended here -->
-    </tbody>
-</table>
+<!-- Placeholder where the layout will be loaded -->
+<div id="layout-placeholder"></div>
+<!-- Main Content -->
+<div class="main-content">
+
+    <h1>AWS Latency Dashboard</h1>
+    <div id="chart" style="width: 100%; height: 400px;"></div>
+
+    <!-- Table to display received data -->
+    <table id="data-table">
+        <thead>
+        <tr>
+            <th>Datetime</th>
+            <th>Latency</th>
+            <th>Color</th>
+            <th>Service</th>
+            <th>API</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Rows will be appended here -->
+        </tbody>
+    </table>
+</div>
 
 <script>
     var chart = echarts.init(document.getElementById('chart'));
@@ -125,6 +133,14 @@
         newRow.style.backgroundColor = color;
     }
     ;
+
+</script>
+<script src="/static/js/script.js"></script>
+<script>
+    // Load the layout using JavaScript
+    fetch('/dashboard-layout.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('layout-placeholder').innerHTML = data);
 </script>
 </body>
 </html>

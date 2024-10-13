@@ -7,18 +7,11 @@
     <link rel="stylesheet" href="/static/css/styles2.css">
 </head>
 <body>
-
+<!-- Container for the entire layout -->
 <div class="dashboard-container">
-    <!-- Left Sidebar -->
-    <nav class="sidebar">
-        <ul>
-            <li><a href="#">Overview</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Instances</a></li>
-            <li><a href="#">Storage</a></li>
-            <li><a href="#">Settings</a></li>
-        </ul>
-    </nav>
+
+    <!-- Placeholder where the layout will be loaded -->
+    <div id="layout-placeholder"></div>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -55,7 +48,12 @@
         </table>
     </div>
 </div>
-
 <script src="/static/js/script.js"></script>
+<script>
+    // Load the layout using JavaScript
+    fetch('/dashboard-layout.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('layout-placeholder').innerHTML = data);
+</script>
 </body>
 </html>

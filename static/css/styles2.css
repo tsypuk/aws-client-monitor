@@ -1,75 +1,89 @@
+/* styles2.css */
+
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f5f6fa;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5; /* Light background for a clean look */
 }
 
 .dashboard-container {
     display: flex;
-    height: 100vh;
+    height: 100vh; /* Full viewport height */
 }
 
 .sidebar {
     width: 250px;
-    background-color: #293241;
+    background-color: #232f3e; /* Darker blue background for sidebar */
+    color: white; /* White text for contrast */
     padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar ul {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
 }
 
 .sidebar ul li {
-    margin: 20px 0;
+    margin-bottom: 15px; /* Increased spacing between items */
 }
 
 .sidebar ul li a {
     text-decoration: none;
-    color: #ffffff;
-    font-size: 16px;
+    color: #ffffff; /* White text color */
+    padding: 10px 15px; /* Padding for a button-like effect */
+    border-radius: 5px; /* Rounded corners */
+    display: block; /* Full width */
 }
 
 .sidebar ul li a:hover {
-    text-decoration: underline;
+    background-color: #37475a; /* Darker background on hover */
 }
 
 .main-content {
-    flex-grow: 1;
-    padding: 40px;
-    background-color: #ffffff;
+    flex: 1; /* Take the remaining width */
+    padding: 20px;
+    background-color: #ffffff; /* White background for the main content */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    border-left: 1px solid #e7e7e7; /* Subtle border between sidebar and main content */
 }
 
 h1 {
-    color: #293241;
+    margin-top: 0;
+    color: #333; /* Darker color for headings */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 20px; /* Space above the table */
+    border-radius: 5px; /* Rounded corners */
+    overflow: hidden; /* For rounding corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 table th, table td {
-    padding: 12px;
-    text-align: left;
     border: 1px solid #ddd;
+    padding: 12px; /* Increased padding for better spacing */
+    text-align: left;
 }
 
 table th {
-    background-color: #3d5a80;
-    color: #ffffff;
+    cursor: pointer;
+    background-color: #f7f9fa; /* Light grey background for headers */
+    color: #333; /* Darker text color */
+    position: sticky; /* Sticky header */
+    top: 0; /* Stay at the top on scroll */
+    z-index: 10; /* Ensure it's above other content */
 }
 
 table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f2f2f2; /* Zebra striping for rows */
 }
 
 table tr:hover {
-    background-color: #e5e5e5;
+    background-color: #e9f5ff; /* Light blue background on row hover */
 }
-
 th {
     cursor: pointer;
 }
@@ -85,4 +99,20 @@ th[data-sort-asc="true"]:after {
 
 th[data-sort-asc="false"]:after {
     content: "\25BC"; /* Down arrow */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%; /* Full width sidebar on smaller screens */
+        position: relative; /* Remove fixed position */
+    }
+
+    .dashboard-container {
+        flex-direction: column; /* Stack layout on small screens */
+    }
+
+    .main-content {
+        padding: 10px; /* Reduced padding */
+    }
 }

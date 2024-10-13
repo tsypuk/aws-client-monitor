@@ -13,3 +13,7 @@ func ServeRealTime(c *gin.Context) {
 func ServeDashBoard(c *gin.Context) {
 	c.HTML(http.StatusOK, "dashboard.html", nil)
 }
+
+func ServeDashBoardLayout(c *gin.Context) {
+	c.HTML(http.StatusOK, "dashboard-layout.html", nil)
+}

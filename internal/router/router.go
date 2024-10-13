@@ -20,7 +20,7 @@ func CreateRouter(router *gin.Engine) *gin.Engine {
 	}
 	router.LoadHTMLFiles("templates/dashboard.html")
 	router.GET("/ws", handler.WsHandler)
-	router.GET("/", handler.ServeDashboard)
+	router.GET("/", handler.ServeRealTime)
 
 	router.Static("/css", "./css")
 

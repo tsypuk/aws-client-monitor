@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func listenUDP(port int, ch []chan<- []byte) {
+func listenUDP(port int, ch []chan<- domain.UdpPayload) {
 	addr := net.UDPAddr{
 		Port: port,
 		IP:   net.ParseIP("0.0.0.0"),
@@ -31,14 +31,19 @@ func listenUDP(port int, ch []chan<- []byte) {
 
 	buffer := make([]byte, 2048)
 	for {
-		n, _, err := conn.ReadFromUDP(buffer)
+		n, addr, err := conn.ReadFromUDP(buffer)
 		if err != nil {
 			fmt.Println("Error reading from UDP:", err)
 			continue
 		}
+		udpPayload := domain.UdpPayload{
+			UDPAddr: addr,
+			Payload: buffer[:n],
+		}
 		// Send received data to channel
 		for i := 0; i < len(ch); i++ {
-			ch[i] <- buffer[:n]
+			//ch[i] <- buffer[:n]
+			ch[i] <- udpPayload
 		}
 	}
 }
@@ -57,11 +62,13 @@ func broadcastMessages() {
 	for {
 		message := <-state.BroadcastChan
 
+		print(message.UDPAddr.IP.String())
+
 		state.ClientsLock.Lock()
 		for client := range state.Clients {
 
 			var apiCall domain.ApiCall
-			err := json.Unmarshal(message, &apiCall)
+			err := json.Unmarshal(message.Payload, &apiCall)
 			if err != nil {
 				print("Error unmarshalling ApiCall: %v", err)
 			} else {
@@ -96,7 +103,7 @@ func broadcastMessages() {
 			}
 
 			var apiCallAttempt domain.ApiCallAttempt
-			err = json.Unmarshal(message, &apiCallAttempt)
+			err = json.Unmarshal(message.Payload, &apiCallAttempt)
 			if err != nil {
 				print("Error unmarshalling ApiCall: %v", err)
 			} else {
@@ -104,7 +111,7 @@ func broadcastMessages() {
 				continue
 			}
 
-			print("Unknown message Type: %s", message)
+			print("Unknown message Type: %s", message.Payload)
 		}
 		state.ClientsLock.Unlock()
 	}
@@ -112,7 +119,7 @@ func broadcastMessages() {
 
 func main() {
 	// Goroutine to listen on UDP and write to the channel
-	go listenUDP(31000, []chan<- []byte{state.BroadcastChan})
+	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan})
 
 	// Goroutines to read from the channel
 	//go writeToConsole(ch2)

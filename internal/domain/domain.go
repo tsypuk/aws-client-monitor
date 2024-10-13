@@ -26,9 +26,8 @@ type ApiCallAttempt struct {
 	SessionToken        string `json:"SessionToken"`
 	HttpStatusCode      int    `json:"HttpStatusCode"`
 	XAmznRequestId      string `json:"XAmznRequestId"`
-	AwsException        string `json:"AwsException"`
-	AwsExceptionMessage string `json:"AwsExceptionMessage"`
-	//XAmzId2        string `json:"XAmzId2"`
+	AwsException        string `json:"AwsException,omitempty"`
+	AwsExceptionMessage string `json:"AwsExceptionMessage,omitempty"`
 }
 
 func NewApiCallAttempt(payload UdpPayload) (*ApiCallAttempt, error) {

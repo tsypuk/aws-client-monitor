@@ -93,6 +93,28 @@ func TestNewApiCallAttempt(t *testing.T) {
 		wantErr bool
 	}{
 		{
+			name: "sqs ApiCallAttempt OK",
+			// load from json file
+			args: args{payload: UdpPayload{Payload: loadJsonFromFile("testdata/sqs.apicallattempt.ok.json")}},
+			want: &ApiCallAttempt{
+				Version:        1,
+				ClientId:       "test-client",
+				Type:           "ApiCallAttempt",
+				Service:        "SQS",
+				Api:            "ListQueues",
+				Timestamp:      1728849034025,
+				AttemptLatency: 313,
+				Fqdn:           "eu-west-1.queue.amazonaws.com",
+				UserAgent:      "aws-cli/1.27.92 md/Botocore#1.31.2 ua/2.0 os/macos#21.6.0 md/arch#x86_64 lang/python#3.10.14 md/pyimpl#CPython cfg/retry-mode#legacy botocore/1.31.2",
+				AccessKey:      "ASIATEST",
+				Region:         "eu-west-1",
+				SessionToken:   "IQTest=",
+				HttpStatusCode: 200,
+				XAmznRequestId: "b18f8c1c-aaea-5d12-a816-d39a8c209dd9",
+			},
+			wantErr: false,
+		},
+		{
 			name: "sqs ApiCallAttempt Error",
 			// load from json file
 			args: args{payload: UdpPayload{Payload: loadJsonFromFile("testdata/sqs.apicallattempt.error.json")}},

@@ -6,49 +6,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
-## [v0.0.9](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.9) - 2024-10-13
-
-<small>[Compare with v0.0.8](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.8...v0.0.9)</small>
-
-### Features
-
-- switch import to local path ([0d66981](https://github.com/tsypuk/aws-client-monitor/commit/0d66981363ba2a3e28b16ba6d1c317b08853b454) by Roman Tsypuk).
-
-## [v0.0.8](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.8) - 2024-10-13
-
-<small>[Compare with v0.0.7](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.7...v0.0.8)</small>
-
-### Features
-
-- updated swagger online documentation ([be709c5](https://github.com/tsypuk/aws-client-monitor/commit/be709c53ddef24c6945628427608a36498d1732c) by Roman Tsypuk).
-
-## [v0.0.7](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.7) - 2024-10-12
-
-<small>[Compare with v0.0.6](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.6...v0.0.7)</small>
-
-### Chore
-
-- update go mod with swagger module ([7eb39fd](https://github.com/tsypuk/aws-client-monitor/commit/7eb39fda50b37c7d0faf8a194dd5879b2eebe0e9) by Roman Tsypuk).
-
-## [v0.0.6](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.6) - 2024-10-12
-
-<small>[Compare with v0.0.5](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.5...v0.0.6)</small>
-
-### Features
-
-- fixed import of module ([862d381](https://github.com/tsypuk/aws-client-monitor/commit/862d3818f6a8de8a9be1c6673469bd982e2dd667) by Roman Tsypuk).
-
-### Chore
-
-- updated go.mod github repo refference ([967043f](https://github.com/tsypuk/aws-client-monitor/commit/967043f8832b93494a831f3c42baa7eb6094186b) by Roman Tsypuk).
-
-## [v0.0.5](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.5) - 2024-10-12
-
-<small>[Compare with v0.0.4](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.4...v0.0.5)</small>
-
-### Chore
-
-- updated dockefile ([1b2e857](https://github.com/tsypuk/aws-client-monitor/commit/1b2e857081f99c37604b570fa28334dfb33baec3) by Roman Tsypuk).
 
 ## [v0.0.4](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.4) - 2024-10-12
 

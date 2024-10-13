@@ -47,11 +47,6 @@ type ApiCall struct {
 	MaxRetriesExceeded  int    `json:"MaxRetriesExceeded"`
 }
 
-// GenericMessage to capture the "Type" field before determining struct
-type GenericMessage struct {
-	Type string `json:"Type"`
-}
-
 // WebSocket upgrader
 var upgrader = websocket.Upgrader{}
 
@@ -215,9 +210,9 @@ func main() {
 	}()
 
 	// start web-server
-	r := gin.Default()
+	router := gin.Default()
 	docs.SwaggerInfo.BasePath = "/api/v1"
-	v1 := r.Group("/api/v1")
+	v1 := router.Group("/api/v1")
 	{
 		v1.GET("/status", statusHandler)
 		//eg := v1.Group("/example")
@@ -225,20 +220,20 @@ func main() {
 		//	eg.GET("/helloworld", Helloworld)
 		//}
 	}
-	r.LoadHTMLFiles("templates/dashboard.html")
+	router.LoadHTMLFiles("templates/dashboard.html")
 
 	// Serve WebSocket for live updates
-	r.GET("/ws", wsHandler)
+	router.GET("/ws", wsHandler)
 
 	// Serve the dashboard UI
-	r.GET("/", serveDashboard)
+	router.GET("/", serveDashboard)
 
-	r.Static("/css", "./css")
+	router.Static("/css", "./css")
 
 	// Route to access the Swagger documentation
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	r.Run(":8080")
+	router.Run(":8080")
 
 	// Prevent the main function from exiting
 	for {

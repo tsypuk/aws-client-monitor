@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS-Like Dashboard</title>
+    <link rel="stylesheet" href="/static/css/styles2.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+    <!-- Left Sidebar -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="#">Overview</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Instances</a></li>
+            <li><a href="#">Storage</a></li>
+            <li><a href="#">Settings</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Dashboard</h1>
+        <table id="dashboardTable">
+            <thead>
+            <tr>
+                <th onclick="sortTable(0)">ID</th>
+                <th onclick="sortTable(1)">Name</th>
+                <th onclick="sortTable(2)">Status</th>
+                <th onclick="sortTable(3)">Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Instance 1</td>
+                <td>Running</td>
+                <td>2024-10-12</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Instance 2</td>
+                <td>Stopped</td>
+                <td>2024-10-10</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Instance 3</td>
+                <td>Running</td>
+                <td>2024-10-08</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/static/js/script.js"></script>
+</body>
+</html>

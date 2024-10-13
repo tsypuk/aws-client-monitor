@@ -9,3 +9,7 @@ import (
 func ServeRealTime(c *gin.Context) {
 	c.HTML(http.StatusOK, "realtime.html", nil)
 }
+
+func ServeDashBoard(c *gin.Context) {
+	c.HTML(http.StatusOK, "dashboard.html", nil)
+}

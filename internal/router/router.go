@@ -18,11 +18,15 @@ func CreateRouter(router *gin.Engine) *gin.Engine {
 		//	eg.GET("/helloworld", Helloworld)
 		//}
 	}
-	router.LoadHTMLFiles("templates/dashboard.html")
+
 	router.GET("/ws", handler.WsHandler)
 	router.GET("/", handler.ServeRealTime)
+	router.GET("/dashboard", handler.ServeDashBoard)
 
-	router.Static("/css", "./css")
+	router.LoadHTMLFiles("templates/realtime.html")
+	router.LoadHTMLFiles("templates/dashboard.html")
+
+	router.Static("/static", "./static")
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	return router

@@ -38,18 +38,20 @@ func (apiCallAttempt *ApiCallAttempt) Validate() error {
 
 // Struct for the ApiCall message
 type ApiCall struct {
-	Version             int    `json:"Version"`
-	ClientId            string `json:"ClientId"`
-	Type                string `json:"Type"`
-	Service             string `json:"Service"`
-	Api                 string `json:"Api"`
-	Timestamp           int64  `json:"Timestamp"`
-	AttemptCount        int    `json:"AttemptCount"`
-	Region              string `json:"Region"`
-	UserAgent           string `json:"UserAgent"`
-	FinalHttpStatusCode int    `json:"FinalHttpStatusCode"`
-	Latency             int    `json:"Latency"`
-	MaxRetriesExceeded  int    `json:"MaxRetriesExceeded"`
+	Version                  int    `json:"Version"`
+	ClientId                 string `json:"ClientId"`
+	Type                     string `json:"Type"`
+	Service                  string `json:"Service"`
+	Api                      string `json:"Api"`
+	Timestamp                int64  `json:"Timestamp"`
+	AttemptCount             int    `json:"AttemptCount"`
+	Region                   string `json:"Region"`
+	UserAgent                string `json:"UserAgent"`
+	FinalHttpStatusCode      int    `json:"FinalHttpStatusCode"`
+	Latency                  int    `json:"Latency"`
+	MaxRetriesExceeded       int    `json:"MaxRetriesExceeded"`
+	FinalAwsException        string `json:"FinalAwsException,omitempty"`
+	FinalAwsExceptionMessage string `json:"FinalAwsExceptionMessage,omitempty"`
 }
 
 func NewApiCall(payload UdpPayload) (*ApiCall, error) {

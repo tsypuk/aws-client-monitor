@@ -1,6 +1,7 @@
 package main
 
 import (
+	"aws-client-monitor/docs"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -215,7 +216,7 @@ func main() {
 
 	// start web-server
 	r := gin.Default()
-	//docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.BasePath = "/api/v1"
 	v1 := r.Group("/api/v1")
 	{
 		v1.GET("/status", statusHandler)

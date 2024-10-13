@@ -1,4 +1,4 @@
-module github.com/tsypuk/aws-client-monitor
+module aws-client-monitor
 
 go 1.23.1
 

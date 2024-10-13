@@ -10,7 +10,6 @@ import (
 func loadJsonFromFile(filename string) []byte {
 	file, _ := os.Open(filename)
 	defer file.Close()
-
 	byteValue, _ := ioutil.ReadAll(file)
 	return byteValue
 }

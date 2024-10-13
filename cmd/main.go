@@ -106,7 +106,7 @@ func broadcastMessages() {
 
 			var apiCallAttempt domain.ApiCallAttempt
 			if err := json.Unmarshal(message.Payload, &apiCallAttempt); err != nil {
-				print("Error unmarshalling ApiCall: %v", err)
+				print("Error unmarshalling ApiCallAttempt: %v", err)
 			} else {
 				if err := apiCallAttempt.Validate(); err != nil {
 					print("Error validating ApiCall: %v", err)

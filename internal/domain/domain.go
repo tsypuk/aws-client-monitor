@@ -29,6 +29,14 @@ type ApiCallAttempt struct {
 	XAmzId2        string `json:"XAmzId2"`
 }
 
+func NewApiCallAttempt(payload UdpPayload) (*ApiCallAttempt, error) {
+	var apiCallAttempt ApiCallAttempt
+	if err := json.Unmarshal(payload.Payload, &apiCallAttempt); err != nil {
+		return nil, fmt.Errorf("unmarshal payload: %w", err)
+	}
+	return &apiCallAttempt, nil
+}
+
 func (apiCallAttempt *ApiCallAttempt) Validate() error {
 	if apiCallAttempt.Type != "ApiCallAttempt" {
 		return fmt.Errorf("invalid api call type: %s", apiCallAttempt.Type)

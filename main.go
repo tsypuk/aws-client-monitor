@@ -10,8 +10,12 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"net"
 	"net/http"
+	"sync"
 	"time"
 )
+
+var broadcastChan = make(chan []byte)
+var ch2 = make(chan []byte)
 
 type ApiCallAttempt struct {
 	Version        int    `json:"Version"`
@@ -49,6 +53,9 @@ type ApiCall struct {
 
 // WebSocket upgrader
 var upgrader = websocket.Upgrader{}
+
+var clients = make(map[*websocket.Conn]bool)
+var clientsLock sync.Mutex
 
 func listenUDP(port int, ch []chan<- []byte) {
 	addr := net.UDPAddr{
@@ -89,56 +96,64 @@ func writeToConsole(ch <-chan []byte) {
 }
 
 // Channel slice to hold active WebSocket connections
-var wsClients = make([]*websocket.Conn, 0)
+//var wsClients = make([]*websocket.Conn, 0)
 
 // Goroutine-safe function to broadcast to all WebSocket clients
-func broadcastToWebSocketClients(message []byte) {
-	for _, client := range wsClients {
+func broadcastMessages() {
+	for {
+		message := <-broadcastChan
 
-		var apiCall ApiCall
-		err := json.Unmarshal(message, &apiCall)
-		if err != nil {
-			print("Error unmarshalling ApiCall: %v", err)
-		} else {
-			fmt.Printf("Parsed ApiCall: %+v\n", apiCall)
-			seconds := apiCall.Timestamp / 1000
-			nanoseconds := (apiCall.Timestamp % 1000) * 1_000_000
+		clientsLock.Lock()
+		for client := range clients {
 
-			// Convert Unix timestamp to time.Time
-			dt := time.Unix(seconds, nanoseconds)
-			// Generate a random color in hex format
-			color := "#FF0000"
-
-			if apiCall.FinalHttpStatusCode == 200 {
-				color = "00FF00"
-			}
-
-			//dt.Format(time.RFC3339),
-			err = client.WriteJSON(map[string]interface{}{
-				"datetime": dt.Format("2006-01-02 15:04:05.000"),
-				"latency":  apiCall.Latency,
-				"color":    color,
-				"api":      fmt.Sprintf("%s:%s", apiCall.Service, apiCall.Api),
-				"service":  apiCall.Service,
-				"response": apiCall.FinalHttpStatusCode,
-			})
+			var apiCall ApiCall
+			err := json.Unmarshal(message, &apiCall)
 			if err != nil {
-				fmt.Println("Error sending WebSocket message:", err)
-				_ = client.Close() // Close the connection if there's an error
+				print("Error unmarshalling ApiCall: %v", err)
+			} else {
+				fmt.Printf("Parsed ApiCall: %+v\n", apiCall)
+				seconds := apiCall.Timestamp / 1000
+				nanoseconds := (apiCall.Timestamp % 1000) * 1_000_000
+
+				// Convert Unix timestamp to time.Time
+				dt := time.Unix(seconds, nanoseconds)
+				// Generate a random color in hex format
+				color := "#FF0000"
+
+				if apiCall.FinalHttpStatusCode == 200 {
+					color = "00FF00"
+				}
+
+				//dt.Format(time.RFC3339),
+				err = client.WriteJSON(map[string]interface{}{
+					"datetime": dt.Format("2006-01-02 15:04:05.000"),
+					"latency":  apiCall.Latency,
+					"color":    color,
+					"api":      fmt.Sprintf("%s:%s", apiCall.Service, apiCall.Api),
+					"service":  apiCall.Service,
+					"response": apiCall.FinalHttpStatusCode,
+				})
+				if err != nil {
+					fmt.Println("Error sending WebSocket message:", err)
+					client.Close() // Close the connection if there's an error
+					delete(clients, client)
+				}
+				continue
 			}
-			continue
-		}
 
-		var apiCallAttempt ApiCallAttempt
-		err = json.Unmarshal(message, &apiCallAttempt)
-		if err != nil {
-			print("Error unmarshalling ApiCall: %v", err)
-		} else {
-			fmt.Printf("Parsed ApiCall: %+v\n", apiCallAttempt)
-			continue
-		}
+			var apiCallAttempt ApiCallAttempt
+			err = json.Unmarshal(message, &apiCallAttempt)
+			if err != nil {
+				print("Error unmarshalling ApiCall: %v", err)
+			} else {
+				fmt.Printf("Parsed ApiCall: %+v\n", apiCallAttempt)
+				continue
+			}
 
-		print("Unknown message Type: %s", message)
+			print("Unknown message Type: %s", message)
+		}
+		clientsLock.Unlock()
+
 	}
 }
 
@@ -168,20 +183,21 @@ func wsHandler(c *gin.Context) {
 	}
 	defer conn.Close()
 
-	// Add the new WebSocket client to the list
-	wsClients = append(wsClients, conn)
+	clientsLock.Lock()
+	clients[conn] = true
+	clientsLock.Unlock()
 
-	// Keep the connection alive until closed by the client
+	defer func() {
+		clientsLock.Lock()
+		delete(clients, conn)
+		clientsLock.Unlock()
+	}()
+
+	// Keep the connection open
 	for {
 		_, _, err := conn.ReadMessage()
 		if err != nil {
-			// Remove the WebSocket client if there's an error (disconnected)
-			for i, client := range wsClients {
-				if client == conn {
-					wsClients = append(wsClients[:i], wsClients[i+1:]...)
-					break
-				}
-			}
+			fmt.Println("Error reading WebSocket message:", err)
 			break
 		}
 	}
@@ -193,21 +209,14 @@ func serveDashboard(c *gin.Context) {
 }
 
 func main() {
-	ch := make(chan []byte)
-	ch2 := make(chan []byte)
-
 	// Goroutine to listen on UDP and write to the channel
-	go listenUDP(31000, []chan<- []byte{ch, ch2})
+	go listenUDP(31000, []chan<- []byte{broadcastChan, ch2})
 
 	// Goroutines to read from the channel
 	go writeToConsole(ch2)
 
 	// Goroutine to broadcast the UDP data to WebSocket clients
-	go func() {
-		for msg := range ch {
-			broadcastToWebSocketClients(msg)
-		}
-	}()
+	go broadcastMessages()
 
 	// start web-server
 	router := gin.Default()

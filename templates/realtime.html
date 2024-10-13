@@ -4,143 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AWS Latency Dashboard</title>
-    <link rel="stylesheet" href="/css/styles.css">
+<!--    <link rel="stylesheet" href="/css/styles.css">-->
     <link rel="stylesheet" href="/static/css/styles2.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
 </head>
 <body>
+<!-- Container for the entire layout -->
+<div class="dashboard-container">
 
-<!-- Placeholder where the layout will be loaded -->
-<div id="layout-placeholder"></div>
-<!-- Main Content -->
-<div class="main-content">
+    <!-- Placeholder where the layout will be loaded -->
+    <div id="layout-placeholder"></div>
 
-    <h1>AWS Latency Dashboard</h1>
-    <div id="chart" style="width: 100%; height: 400px;"></div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Realtime Latency Dashboard</h1>
+        <div id="chart" style="width: 90%; height: 400px;"></div>
 
-    <!-- Table to display received data -->
-    <table id="data-table">
-        <thead>
-        <tr>
-            <th>Datetime</th>
-            <th>Latency</th>
-            <th>Color</th>
-            <th>Service</th>
-            <th>API</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Rows will be appended here -->
-        </tbody>
-    </table>
+        <!-- Table to display received data -->
+        <table id="dashboardTable">
+            <thead>
+            <tr>
+                <th onclick="sortTable(0)">Datetime</th>
+                <th onclick="sortTable(1)">Latency</th>
+                <th onclick="sortTable(2)">Color</th>
+                <th onclick="sortTable(3)">Service</th>
+                <th onclick="sortTable(4)">API</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Rows will be appended here -->
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<script>
-    var chart = echarts.init(document.getElementById('chart'));
-    var option = {
-        title: {text: 'AWS API latency over time'},
-        xAxis: {
-            type: 'time',  // Use time-based X-axis
-            boundaryGap: false,  // Ensure bars align to the actual datetime points
-            axisLabel: {
-                formatter: function (value) {
-                    // Format the datetime for better readability
-                    const date = new Date(value);
-                    return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-                }
-            }
-        },
-        yAxis: {type: 'value'},
-        series: [{
-            data: [],
-            type: 'bar',
-            label: {
-                show: true, // Show the labels
-                position: 'top', // Position the label above the bars
-                formatter: function (params) {
-                    return `${params.value[3]}`
+    <script>
+        var chart = echarts.init(document.getElementById('chart'));
+        var option = {
+            title: {text: 'AWS API latency over time'},
+            xAxis: {
+                type: 'time',  // Use time-based X-axis
+                boundaryGap: false,  // Ensure bars align to the actual datetime points
+                axisLabel: {
+                    formatter: function (value) {
+                        // Format the datetime for better readability
+                        const date = new Date(value);
+                        return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+                    }
                 }
             },
-            itemStyle: {
-                color: function (params) {
-                    return params.value[2];  // The third element in the data array is the color
+            yAxis: {type: 'value'},
+            series: [{
+                data: [],
+                type: 'bar',
+                label: {
+                    show: true, // Show the labels
+                    position: 'top', // Position the label above the bars
+                    formatter: function (params) {
+                        return `${params.value[3]}`
+                    }
+                },
+                itemStyle: {
+                    color: function (params) {
+                        return params.value[2];  // The third element in the data array is the color
+                    }
                 }
-            }
-        }],
-        // Add dataZoom to enable zoom functionality
-        dataZoom: [
-            {
-                type: 'slider',   // This enables a slider on the x-axis
-                show: true,
-                xAxisIndex: [0],
-                start: 0,         // Default zoom range (0% to 100%)
-                end: 100
-            },
-            {
-                type: 'inside',   // This enables zooming with the scroll wheel
-                xAxisIndex: [0]
-            }
-        ]
-    };
+            }],
+            // Add dataZoom to enable zoom functionality
+            dataZoom: [
+                {
+                    type: 'slider',   // This enables a slider on the x-axis
+                    show: true,
+                    xAxisIndex: [0],
+                    start: 0,         // Default zoom range (0% to 100%)
+                    end: 100
+                },
+                {
+                    type: 'inside',   // This enables zooming with the scroll wheel
+                    xAxisIndex: [0]
+                }
+            ]
+        };
 
-    chart.setOption(option);
-
-    function parseDateTime(dateTimeStr) {
-        var parts = dateTimeStr.split(" ");
-        var dateParts = parts[0].split("-");
-        var timeParts = parts[1].split(":");
-
-        return new Date(
-            parseInt(dateParts[0]), // Year
-            parseInt(dateParts[1]) - 1, // Month (0-based index)
-            parseInt(dateParts[2]), // Day
-            parseInt(timeParts[0]), // Hour
-            parseInt(timeParts[1]), // Minute
-            parseInt(timeParts[2])  // Second
-        ).getTime();
-    }
-
-    // WebSocket connection
-    var socket = new WebSocket('ws://localhost:8080/ws');
-
-    socket.onmessage = function (event) {
-        console.log(event)
-        var data = JSON.parse(event.data);
-        var datetime = parseDateTime(data.datetime);
-        var latency = data.latency;
-        var color = data.color;
-        var api = data.api;
-        var response = data.response;
-
-        // Push the new data point
-        // option.xAxis.data.push(datetime);
-        // option.series[0].data.push({value: latency, color: color});
-        option.series[0].data.push([datetime, latency, color, api, response]);
-
-        // Update the chart
         chart.setOption(option);
 
-        // Append a new row to the table
-        var table = document.getElementById('data-table').getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow();
-        newRow.insertCell(0).innerText = datetime;
-        newRow.insertCell(1).innerText = latency;
-        newRow.insertCell(2).innerText = color;
-        newRow.insertCell(3).innerText = response;
-        newRow.insertCell(4).innerText = api;
+        function parseDateTime(dateTimeStr) {
+            var parts = dateTimeStr.split(" ");
+            var dateParts = parts[0].split("-");
+            var timeParts = parts[1].split(":");
 
-        // Set the background color of the row
-        newRow.style.backgroundColor = color;
-    }
-    ;
+            return new Date(
+                parseInt(dateParts[0]), // Year
+                parseInt(dateParts[1]) - 1, // Month (0-based index)
+                parseInt(dateParts[2]), // Day
+                parseInt(timeParts[0]), // Hour
+                parseInt(timeParts[1]), // Minute
+                parseInt(timeParts[2])  // Second
+            ).getTime();
+        }
 
-</script>
-<script src="/static/js/script.js"></script>
-<script>
-    // Load the layout using JavaScript
-    fetch('/dashboard-layout.html')
-        .then(response => response.text())
-        .then(data => document.getElementById('layout-placeholder').innerHTML = data);
-</script>
+        // WebSocket connection
+        var socket = new WebSocket('ws://localhost:8080/ws');
+
+        socket.onmessage = function (event) {
+            console.log(event)
+            var data = JSON.parse(event.data);
+            var datetime = parseDateTime(data.datetime);
+            var latency = data.latency;
+            var color = data.color;
+            var api = data.api;
+            var response = data.response;
+
+            // Push the new data point
+            // option.xAxis.data.push(datetime);
+            // option.series[0].data.push({value: latency, color: color});
+            option.series[0].data.push([datetime, latency, color, api, response]);
+
+            // Update the chart
+            chart.setOption(option);
+
+            // Append a new row to the table
+            var table = document.getElementById('dashboardTable').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+            newRow.insertCell(0).innerText = datetime;
+            newRow.insertCell(1).innerText = latency;
+            newRow.insertCell(2).innerText = color;
+            newRow.insertCell(3).innerText = response;
+            newRow.insertCell(4).innerText = api;
+
+            // Set the background color of the row
+            newRow.style.backgroundColor = color;
+        }
+        ;
+
+    </script>
+    <script src="/static/js/script.js"></script>
+    <script>
+        // Load the layout using JavaScript
+        fetch('/dashboard-layout.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('layout-placeholder').innerHTML = data);
+    </script>
 </body>
 </html>

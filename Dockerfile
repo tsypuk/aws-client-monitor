@@ -9,12 +9,13 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the rest of the application code
-COPY main.go ./
+COPY cmd ./cmd
 COPY templates ./templates
 COPY docs ./docs
+COPY internal ./internal
 
 # Build the Go application
-RUN go build -o aws-client-monitor .
+RUN go build -o aws-client-monitor ./cmd/main.go
 
 # Create a smaller final image from scratch or alpine
 FROM alpine:latest

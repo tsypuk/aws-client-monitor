@@ -1,6 +1,9 @@
 package domain
 
-import "net"
+import (
+	"fmt"
+	"net"
+)
 
 type UdpPayload struct {
 	UDPAddr *net.UDPAddr
@@ -25,6 +28,13 @@ type ApiCallAttempt struct {
 	XAmzId2        string `json:"XAmzId2"`
 }
 
+func (apiCallAttempt *ApiCallAttempt) Validate() error {
+	if apiCallAttempt.Type != "ApiCallAttempt" {
+		return fmt.Errorf("invalid api call type: %s", apiCallAttempt.Type)
+	}
+	return nil
+}
+
 // Struct for the ApiCall message
 type ApiCall struct {
 	Version             int    `json:"Version"`
@@ -39,4 +49,11 @@ type ApiCall struct {
 	FinalHttpStatusCode int    `json:"FinalHttpStatusCode"`
 	Latency             int    `json:"Latency"`
 	MaxRetriesExceeded  int    `json:"MaxRetriesExceeded"`
+}
+
+func (apiCall *ApiCall) Validate() error {
+	if apiCall.Type != "ApiCall" {
+		return fmt.Errorf("invalid api call type: %s", apiCall.Type)
+	}
+	return nil
 }

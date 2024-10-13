@@ -4,7 +4,6 @@ import (
 	"aws-client-monitor/internal/domain"
 	"aws-client-monitor/internal/router"
 	"aws-client-monitor/internal/state"
-	"aws-client-monitor/internal/validator"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
@@ -72,7 +71,7 @@ func broadcastMessages() {
 			if err := json.Unmarshal(message.Payload, &apiCall); err != nil {
 				print("Error unmarshalling ApiCall: %v", err)
 			} else {
-				if err := validator.ValidateApiCall(&apiCall); err != nil {
+				if err := apiCall.Validate(); err != nil {
 					print("Error validating ApiCall: %v", err)
 					continue
 				}
@@ -110,8 +109,12 @@ func broadcastMessages() {
 			if err := json.Unmarshal(message.Payload, &apiCallAttempt); err != nil {
 				print("Error unmarshalling ApiCall: %v", err)
 			} else {
-				fmt.Printf("Parsed ApiCallAttempt: %+v\n", apiCallAttempt)
-				continue
+				if err := apiCallAttempt.Validate(); err != nil {
+					print("Error validating ApiCall: %v", err)
+				} else {
+					fmt.Printf("Parsed ApiCallAttempt: %+v\n", apiCallAttempt)
+					continue
+				}
 			}
 
 			print("Unknown message Type: %s", message.Payload)

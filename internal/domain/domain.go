@@ -12,21 +12,23 @@ type UdpPayload struct {
 }
 
 type ApiCallAttempt struct {
-	Version        int    `json:"Version"`
-	ClientId       string `json:"ClientId"`
-	Type           string `json:"Type"`
-	Service        string `json:"Service"`
-	Api            string `json:"Api"`
-	Timestamp      int64  `json:"Timestamp"`
-	AttemptLatency int    `json:"AttemptLatency"`
-	Fqdn           string `json:"Fqdn"`
-	UserAgent      string `json:"UserAgent"`
-	AccessKey      string `json:"AccessKey"`
-	Region         string `json:"Region"`
-	SessionToken   string `json:"SessionToken"`
-	HttpStatusCode int    `json:"HttpStatusCode"`
-	XAmzRequestId  string `json:"XAmzRequestId"`
-	XAmzId2        string `json:"XAmzId2"`
+	Version             int    `json:"Version"`
+	ClientId            string `json:"ClientId"`
+	Type                string `json:"Type"`
+	Service             string `json:"Service"`
+	Api                 string `json:"Api"`
+	Timestamp           int64  `json:"Timestamp"`
+	AttemptLatency      int    `json:"AttemptLatency"`
+	Fqdn                string `json:"Fqdn"`
+	UserAgent           string `json:"UserAgent"`
+	AccessKey           string `json:"AccessKey"`
+	Region              string `json:"Region"`
+	SessionToken        string `json:"SessionToken"`
+	HttpStatusCode      int    `json:"HttpStatusCode"`
+	XAmznRequestId      string `json:"XAmznRequestId"`
+	AwsException        string `json:"AwsException"`
+	AwsExceptionMessage string `json:"AwsExceptionMessage"`
+	//XAmzId2        string `json:"XAmzId2"`
 }
 
 func NewApiCallAttempt(payload UdpPayload) (*ApiCallAttempt, error) {

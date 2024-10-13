@@ -81,3 +81,53 @@ func TestNewApiCall(t *testing.T) {
 		})
 	}
 }
+
+func TestNewApiCallAttempt(t *testing.T) {
+	type args struct {
+		payload UdpPayload
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    *ApiCallAttempt
+		wantErr bool
+	}{
+		{
+			name: "sqs ApiCallAttempt Error",
+			// load from json file
+			args: args{payload: UdpPayload{Payload: loadJsonFromFile("testdata/sqs.apicallattempt.error.json")}},
+			want: &ApiCallAttempt{
+				Version:             1,
+				ClientId:            "test-client",
+				Type:                "ApiCallAttempt",
+				Service:             "SQS",
+				Api:                 "ListQueues",
+				Timestamp:           1728848411600,
+				AttemptLatency:      200,
+				Fqdn:                "eu-west-1.queue.amazonaws.com",
+				UserAgent:           "aws-cli/1.27.92 md/Botocore#1.31.2 ua/2.0 os/macos#21.6.0 md/arch#x86_64 lang/python#3.10.14 md/pyimpl#CPython cfg/retry-mode#legacy botocore/1.31.2",
+				AccessKey:           "ASIATEST",
+				Region:              "eu-west-1",
+				SessionToken:        "IQTest=",
+				HttpStatusCode:      403,
+				XAmznRequestId:      "93630470-f629-58a4-a2e8-5bf6d27281e2",
+				AwsException:        "ExpiredToken",
+				AwsExceptionMessage: "The security token included in the request is expired",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Run the actual test
+			got, err := NewApiCallAttempt(tt.args.payload)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("NewApiCallAttempt() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewApiCallAttempt() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

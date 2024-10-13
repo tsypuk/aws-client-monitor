@@ -1,28 +1,15 @@
 package main
 
 import (
-	"aws-client-monitor/docs"
 	"aws-client-monitor/internal/domain"
+	"aws-client-monitor/internal/router"
+	"aws-client-monitor/internal/state"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
-	"github.com/gorilla/websocket"
-	swaggerfiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"net"
-	"net/http"
-	"sync"
 	"time"
 )
-
-var broadcastChan = make(chan []byte)
-var ch2 = make(chan []byte)
-
-// WebSocket upgrader
-var upgrader = websocket.Upgrader{}
-
-var clients = make(map[*websocket.Conn]bool)
-var clientsLock sync.Mutex
 
 func listenUDP(port int, ch []chan<- []byte) {
 	addr := net.UDPAddr{
@@ -65,13 +52,13 @@ func writeToConsole(ch <-chan []byte) {
 // Channel slice to hold active WebSocket connections
 //var wsClients = make([]*websocket.Conn, 0)
 
-// Goroutine-safe function to broadcast to all WebSocket clients
+// Goroutine-safe function to broadcast to all WebSocket Clients
 func broadcastMessages() {
 	for {
-		message := <-broadcastChan
+		message := <-state.BroadcastChan
 
-		clientsLock.Lock()
-		for client := range clients {
+		state.ClientsLock.Lock()
+		for client := range state.Clients {
 
 			var apiCall domain.ApiCall
 			err := json.Unmarshal(message, &apiCall)
@@ -103,7 +90,7 @@ func broadcastMessages() {
 				if err != nil {
 					fmt.Println("Error sending WebSocket message:", err)
 					client.Close() // Close the connection if there's an error
-					delete(clients, client)
+					delete(state.Clients, client)
 				}
 				continue
 			}
@@ -119,97 +106,23 @@ func broadcastMessages() {
 
 			print("Unknown message Type: %s", message)
 		}
-		clientsLock.Unlock()
-
+		state.ClientsLock.Unlock()
 	}
-}
-
-// @BasePath /api/v1
-
-// PingExample godoc
-// @Summary ping example
-// @Schemes
-// @Description do ping
-// @Tags example
-// @Accept json
-// @Produce json
-// @Success 200 {string} running
-// @Router /status [get]
-func statusHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status": "running",
-	})
-}
-
-// WebSocket handler, to handle new connections
-func wsHandler(c *gin.Context) {
-	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
-	if err != nil {
-		fmt.Println("Failed to set websocket upgrade: ", err)
-		return
-	}
-	defer conn.Close()
-
-	clientsLock.Lock()
-	clients[conn] = true
-	clientsLock.Unlock()
-
-	defer func() {
-		clientsLock.Lock()
-		delete(clients, conn)
-		clientsLock.Unlock()
-	}()
-
-	// Keep the connection open
-	for {
-		_, _, err := conn.ReadMessage()
-		if err != nil {
-			fmt.Println("Error reading WebSocket message:", err)
-			break
-		}
-	}
-}
-
-// Serve the dashboard
-func serveDashboard(c *gin.Context) {
-	c.HTML(http.StatusOK, "dashboard.html", nil)
 }
 
 func main() {
 	// Goroutine to listen on UDP and write to the channel
-	go listenUDP(31000, []chan<- []byte{broadcastChan})
+	go listenUDP(31000, []chan<- []byte{state.BroadcastChan})
 
 	// Goroutines to read from the channel
 	//go writeToConsole(ch2)
 
-	// Goroutine to broadcast the UDP data to WebSocket clients
+	// Goroutine to broadcast the UDP data to WebSocket Clients
 	go broadcastMessages()
 
 	// start web-server
-	router := gin.Default()
-	docs.SwaggerInfo.BasePath = "/api/v1"
-	v1 := router.Group("/api/v1")
-	{
-		v1.GET("/status", statusHandler)
-		//eg := v1.Group("/example")
-		//{
-		//	eg.GET("/helloworld", Helloworld)
-		//}
-	}
-	router.LoadHTMLFiles("templates/dashboard.html")
-
-	// Serve WebSocket for live updates
-	router.GET("/ws", wsHandler)
-
-	// Serve the dashboard UI
-	router.GET("/", serveDashboard)
-
-	router.Static("/css", "./css")
-
-	// Route to access the Swagger documentation
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-
-	router.Run(":8080")
+	rout := router.CreateRouter(gin.Default())
+	rout.Run(":8080")
 
 	// Prevent the main function from exiting
 	for {

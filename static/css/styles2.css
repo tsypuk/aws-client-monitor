@@ -41,11 +41,20 @@ body {
 }
 
 .main-content {
-    flex: 1; /* Take the remaining width */
-    padding: 20px;
+    width: 95%; /* Make the main content fill the full width */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Allow vertical scrolling if necessary */
+    max-width: 100%; /* Ensure it doesn't exceed the width of the parent */
+    padding: 2px; /* Optional: Add some padding */
+    box-sizing: border-box; /* Include padding in the width calculation */
+    /*flex: 1; !* Take the remaining width *!*/
     background-color: #ffffff; /* White background for the main content */
-    overflow-y: auto; /* Allow scrolling if content overflows */
     border-left: 1px solid #e7e7e7; /* Subtle border between sidebar and main content */
+}
+
+#dashboardTable {
+    width: 95%; /* Make the table full width */
+    table-layout: auto; /* Allow the table to resize */
 }
 
 h1 {
@@ -84,6 +93,7 @@ table tr:nth-child(even) {
 table tr:hover {
     background-color: #e9f5ff; /* Light blue background on row hover */
 }
+
 th {
     cursor: pointer;
 }

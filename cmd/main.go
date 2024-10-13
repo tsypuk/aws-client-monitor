@@ -4,6 +4,7 @@ import (
 	"aws-client-monitor/internal/domain"
 	"aws-client-monitor/internal/router"
 	"aws-client-monitor/internal/state"
+	"aws-client-monitor/internal/validator"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
@@ -48,9 +49,9 @@ func listenUDP(port int, ch []chan<- domain.UdpPayload) {
 	}
 }
 
-func writeToConsole(ch <-chan []byte) {
+func writeToConsole(ch <-chan domain.UdpPayload) {
 	for msg := range ch {
-		fmt.Println("Received from channel:", string(msg))
+		fmt.Println("Received from channel:", string(msg.Payload))
 	}
 }
 
@@ -68,10 +69,13 @@ func broadcastMessages() {
 		for client := range state.Clients {
 
 			var apiCall domain.ApiCall
-			err := json.Unmarshal(message.Payload, &apiCall)
-			if err != nil {
+			if err := json.Unmarshal(message.Payload, &apiCall); err != nil {
 				print("Error unmarshalling ApiCall: %v", err)
 			} else {
+				if err := validator.ValidateApiCall(&apiCall); err != nil {
+					print("Error validating ApiCall: %v", err)
+					continue
+				}
 				fmt.Printf("Parsed ApiCall: %+v\n", apiCall)
 				seconds := apiCall.Timestamp / 1000
 				nanoseconds := (apiCall.Timestamp % 1000) * 1_000_000
@@ -103,11 +107,10 @@ func broadcastMessages() {
 			}
 
 			var apiCallAttempt domain.ApiCallAttempt
-			err = json.Unmarshal(message.Payload, &apiCallAttempt)
-			if err != nil {
+			if err := json.Unmarshal(message.Payload, &apiCallAttempt); err != nil {
 				print("Error unmarshalling ApiCall: %v", err)
 			} else {
-				fmt.Printf("Parsed ApiCall: %+v\n", apiCallAttempt)
+				fmt.Printf("Parsed ApiCallAttempt: %+v\n", apiCallAttempt)
 				continue
 			}
 
@@ -119,17 +122,16 @@ func broadcastMessages() {
 
 func main() {
 	// Goroutine to listen on UDP and write to the channel
-	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan})
+	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan, state.Ch2})
 
 	// Goroutines to read from the channel
-	//go writeToConsole(ch2)
+	go writeToConsole(state.Ch2)
 
 	// Goroutine to broadcast the UDP data to WebSocket Clients
 	go broadcastMessages()
 
 	// start web-server
-	rout := router.CreateRouter(gin.Default())
-	rout.Run(":8080")
+	router.CreateRouter(gin.Default()).Run(":8080")
 
 	// Prevent the main function from exiting
 	for {

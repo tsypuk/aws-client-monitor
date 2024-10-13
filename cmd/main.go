@@ -67,8 +67,7 @@ func broadcastMessages() {
 		state.ClientsLock.Lock()
 		for client := range state.Clients {
 
-			var apiCall domain.ApiCall
-			if err := json.Unmarshal(message.Payload, &apiCall); err != nil {
+			if apiCall, err := domain.NewApiCall(message); err != nil {
 				print("Error unmarshalling ApiCall: %v", err)
 			} else {
 				if err := apiCall.Validate(); err != nil {

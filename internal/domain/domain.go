@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+	"github.com/goccy/go-json"
 	"net"
 )
 
@@ -49,6 +50,14 @@ type ApiCall struct {
 	FinalHttpStatusCode int    `json:"FinalHttpStatusCode"`
 	Latency             int    `json:"Latency"`
 	MaxRetriesExceeded  int    `json:"MaxRetriesExceeded"`
+}
+
+func NewApiCall(payload UdpPayload) (*ApiCall, error) {
+	var apiCall ApiCall
+	if err := json.Unmarshal(payload.Payload, &apiCall); err != nil {
+		return nil, fmt.Errorf("unmarshal payload: %w", err)
+	}
+	return &apiCall, nil
 }
 
 func (apiCall *ApiCall) Validate() error {

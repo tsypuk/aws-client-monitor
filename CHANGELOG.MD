@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.9](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.9) - 2024-10-13
+
+<small>[Compare with v0.0.8](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.8...v0.0.9)</small>
+
+### Features
+
+- switch import to local path ([0d66981](https://github.com/tsypuk/aws-client-monitor/commit/0d66981363ba2a3e28b16ba6d1c317b08853b454) by Roman Tsypuk).
+
+## [v0.0.8](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.8) - 2024-10-13
+
+<small>[Compare with v0.0.7](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.7...v0.0.8)</small>
+
+### Features
+
+- updated swagger online documentation ([be709c5](https://github.com/tsypuk/aws-client-monitor/commit/be709c53ddef24c6945628427608a36498d1732c) by Roman Tsypuk).
+
 ## [v0.0.7](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.7) - 2024-10-12
 
 <small>[Compare with v0.0.6](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.6...v0.0.7)</small>

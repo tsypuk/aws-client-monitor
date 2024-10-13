@@ -47,6 +47,26 @@ func TestNewApiCall(t *testing.T) {
 			},
 			wantErr: false,
 		},
+		{
+			name: "sqs ApiCall OK",
+			// load from json file
+			args: args{payload: UdpPayload{Payload: loadJsonFromFile("testdata/sqs.apicall.ok.json")}},
+			want: &ApiCall{
+				Version:             1,
+				ClientId:            "test-client",
+				Type:                "ApiCall",
+				Service:             "SQS",
+				Api:                 "ListQueues",
+				Timestamp:           1728846984653,
+				AttemptCount:        1,
+				Region:              "eu-west-1",
+				UserAgent:           "aws-cli/1.27.92 md/Botocore#1.31.2 ua/2.0 os/macos#21.6.0 md/arch#x86_64 lang/python#3.10.14 md/pyimpl#CPython cfg/retry-mode#legacy botocore/1.31.2",
+				FinalHttpStatusCode: 200,
+				Latency:             2151,
+				MaxRetriesExceeded:  0,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

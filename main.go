@@ -2,9 +2,9 @@ package main
 
 import (
 	"aws-client-monitor/docs"
-	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/goccy/go-json"
 	"github.com/gorilla/websocket"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -210,10 +210,10 @@ func serveDashboard(c *gin.Context) {
 
 func main() {
 	// Goroutine to listen on UDP and write to the channel
-	go listenUDP(31000, []chan<- []byte{broadcastChan, ch2})
+	go listenUDP(31000, []chan<- []byte{broadcastChan})
 
 	// Goroutines to read from the channel
-	go writeToConsole(ch2)
+	//go writeToConsole(ch2)
 
 	// Goroutine to broadcast the UDP data to WebSocket clients
 	go broadcastMessages()

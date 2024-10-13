@@ -1,5 +1,12 @@
 package domain
 
+import "net"
+
+type UdpPayload struct {
+	UDPAddr *net.UDPAddr
+	Payload []byte
+}
+
 type ApiCallAttempt struct {
 	Version        int    `json:"Version"`
 	ClientId       string `json:"ClientId"`

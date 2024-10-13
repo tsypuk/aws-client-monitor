@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/websocket"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/tsypuk/aws-client-monitor/docs"
+	_ "github.com/tsypuk/aws-client-monitor/docs"
 	"net"
 	"net/http"
 	"time"
@@ -216,7 +216,7 @@ func main() {
 
 	// start web-server
 	r := gin.Default()
-	docs.SwaggerInfo.BasePath = "/api/v1"
+	//docs.SwaggerInfo.BasePath = "/api/v1"
 	v1 := r.Group("/api/v1")
 	{
 		v1.GET("/status", statusHandler)

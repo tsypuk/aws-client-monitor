@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.5](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.5) - 2024-10-13
+
+<small>[Compare with v0.0.4](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.4...v0.0.5)</small>
+
+### Docs
+
+- updated changelog ([1e69984](https://github.com/tsypuk/aws-client-monitor/commit/1e69984cc352966b879b24724e3c4fed3b4ddf39) by Roman Tsypuk).
+
+### Features
+
+- switch to thread safe json serialization library ([79db4e2](https://github.com/tsypuk/aws-client-monitor/commit/79db4e2cb1fe49cc84cbb6ea30320b8ac93238b9) by Roman Tsypuk).
+- switch to locked impl ([4d8e855](https://github.com/tsypuk/aws-client-monitor/commit/4d8e855e3a734a392ac622a28fa6bebcd0a93d07) by Roman Tsypuk).
+- stabilize websocket ([3368a4e](https://github.com/tsypuk/aws-client-monitor/commit/3368a4e527d3eee34160fdc6f5e2d856fb1f2ee2) by Roman Tsypuk).
+- moved to router ([c55dcf8](https://github.com/tsypuk/aws-client-monitor/commit/c55dcf8c6fceaff1110421d5fab611d978df6b46) by Roman Tsypuk).
+- docker build is working with swagger endpoint ([a1cbcfc](https://github.com/tsypuk/aws-client-monitor/commit/a1cbcfc89ee833017d734cc754ce6e2649da308c) by Roman Tsypuk).
+- switch import to local path ([0d66981](https://github.com/tsypuk/aws-client-monitor/commit/0d66981363ba2a3e28b16ba6d1c317b08853b454) by Roman Tsypuk).
+- updated swagger online documentation ([be709c5](https://github.com/tsypuk/aws-client-monitor/commit/be709c53ddef24c6945628427608a36498d1732c) by Roman Tsypuk).
+- fixed import of module ([862d381](https://github.com/tsypuk/aws-client-monitor/commit/862d3818f6a8de8a9be1c6673469bd982e2dd667) by Roman Tsypuk).
+
+### Chore
+
+- update go mod with swagger module ([7eb39fd](https://github.com/tsypuk/aws-client-monitor/commit/7eb39fda50b37c7d0faf8a194dd5879b2eebe0e9) by Roman Tsypuk).
+- updated go.mod github repo refference ([967043f](https://github.com/tsypuk/aws-client-monitor/commit/967043f8832b93494a831f3c42baa7eb6094186b) by Roman Tsypuk).
+- updated dockefile ([1b2e857](https://github.com/tsypuk/aws-client-monitor/commit/1b2e857081f99c37604b570fa28334dfb33baec3) by Roman Tsypuk).
 
 ## [v0.0.4](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.4) - 2024-10-12
 

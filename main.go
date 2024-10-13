@@ -2,6 +2,7 @@ package main
 
 import (
 	"aws-client-monitor/docs"
+	"aws-client-monitor/internal/domain"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
@@ -16,40 +17,6 @@ import (
 
 var broadcastChan = make(chan []byte)
 var ch2 = make(chan []byte)
-
-type ApiCallAttempt struct {
-	Version        int    `json:"Version"`
-	ClientId       string `json:"ClientId"`
-	Type           string `json:"Type"`
-	Service        string `json:"Service"`
-	Api            string `json:"Api"`
-	Timestamp      int64  `json:"Timestamp"`
-	AttemptLatency int    `json:"AttemptLatency"`
-	Fqdn           string `json:"Fqdn"`
-	UserAgent      string `json:"UserAgent"`
-	AccessKey      string `json:"AccessKey"`
-	Region         string `json:"Region"`
-	SessionToken   string `json:"SessionToken"`
-	HttpStatusCode int    `json:"HttpStatusCode"`
-	XAmzRequestId  string `json:"XAmzRequestId"`
-	XAmzId2        string `json:"XAmzId2"`
-}
-
-// Struct for the ApiCall message
-type ApiCall struct {
-	Version             int    `json:"Version"`
-	ClientId            string `json:"ClientId"`
-	Type                string `json:"Type"`
-	Service             string `json:"Service"`
-	Api                 string `json:"Api"`
-	Timestamp           int64  `json:"Timestamp"`
-	AttemptCount        int    `json:"AttemptCount"`
-	Region              string `json:"Region"`
-	UserAgent           string `json:"UserAgent"`
-	FinalHttpStatusCode int    `json:"FinalHttpStatusCode"`
-	Latency             int    `json:"Latency"`
-	MaxRetriesExceeded  int    `json:"MaxRetriesExceeded"`
-}
 
 // WebSocket upgrader
 var upgrader = websocket.Upgrader{}
@@ -106,7 +73,7 @@ func broadcastMessages() {
 		clientsLock.Lock()
 		for client := range clients {
 
-			var apiCall ApiCall
+			var apiCall domain.ApiCall
 			err := json.Unmarshal(message, &apiCall)
 			if err != nil {
 				print("Error unmarshalling ApiCall: %v", err)
@@ -141,7 +108,7 @@ func broadcastMessages() {
 				continue
 			}
 
-			var apiCallAttempt ApiCallAttempt
+			var apiCallAttempt domain.ApiCallAttempt
 			err = json.Unmarshal(message, &apiCallAttempt)
 			if err != nil {
 				print("Error unmarshalling ApiCall: %v", err)

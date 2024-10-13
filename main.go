@@ -95,17 +95,8 @@ var wsClients = make([]*websocket.Conn, 0)
 func broadcastToWebSocketClients(message []byte) {
 	for _, client := range wsClients {
 
-		var apiCallAttempt ApiCallAttempt
-		err := json.Unmarshal(message, &apiCallAttempt)
-		if err != nil {
-			print("Error unmarshalling ApiCall: %v", err)
-		} else {
-			fmt.Printf("Parsed ApiCall: %+v\n", apiCallAttempt)
-			continue
-		}
-
 		var apiCall ApiCall
-		err = json.Unmarshal(message, &apiCall)
+		err := json.Unmarshal(message, &apiCall)
 		if err != nil {
 			print("Error unmarshalling ApiCall: %v", err)
 		} else {
@@ -135,6 +126,15 @@ func broadcastToWebSocketClients(message []byte) {
 				fmt.Println("Error sending WebSocket message:", err)
 				_ = client.Close() // Close the connection if there's an error
 			}
+			continue
+		}
+
+		var apiCallAttempt ApiCallAttempt
+		err = json.Unmarshal(message, &apiCallAttempt)
+		if err != nil {
+			print("Error unmarshalling ApiCall: %v", err)
+		} else {
+			fmt.Printf("Parsed ApiCall: %+v\n", apiCallAttempt)
 			continue
 		}
 

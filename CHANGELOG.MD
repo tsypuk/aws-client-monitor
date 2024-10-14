@@ -6,6 +6,48 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.6](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.6) - 2024-10-14
+
+<small>[Compare with v0.0.5](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.5...v0.0.6)</small>
+
+### Features
+
+- post lint refactor ([ae7a5f7](https://github.com/tsypuk/aws-client-monitor/commit/ae7a5f78651764ccb4301bfbb8197e3f44ce3fad) by Roman Tsypuk).
+- added constructor ([5cf400c](https://github.com/tsypuk/aws-client-monitor/commit/5cf400cb98492670883487b8d0cc14d63cb99531) by Roman Tsypuk).
+- added omitempty fields ([67f3b83](https://github.com/tsypuk/aws-client-monitor/commit/67f3b836cd1ba5183012a2bf6a170dd525eadb5e) by Roman Tsypuk).
+- added ApiCall test ok ([6e5389a](https://github.com/tsypuk/aws-client-monitor/commit/6e5389ad288471a5ff04654e366a570847b3bc19) by Roman Tsypuk).
+- added ApiCall test ([263e3bb](https://github.com/tsypuk/aws-client-monitor/commit/263e3bb787dbc372e7412482b302504c4b9fa4ae) by Roman Tsypuk).
+- added ApiCall constructor ([98f3d8c](https://github.com/tsypuk/aws-client-monitor/commit/98f3d8cf9c65d3a5b6f186a48bc1a4cb5b773025) by Roman Tsypuk).
+- added ApiCallAttempt validation ([8e77de7](https://github.com/tsypuk/aws-client-monitor/commit/8e77de72cb86f5035524dd9b0eb7bfe4e2e247a8) by Roman Tsypuk).
+- added apicall validation ([10ce2d3](https://github.com/tsypuk/aws-client-monitor/commit/10ce2d35fd44dfa5d7ae2f33a60451910260945c) by Roman Tsypuk).
+- dockerfile build static content included ([5e98053](https://github.com/tsypuk/aws-client-monitor/commit/5e98053130e75ab73aa4b9ec5fc6735854c5abff) by Roman Tsypuk).
+- updated styles ([231da9b](https://github.com/tsypuk/aws-client-monitor/commit/231da9b50f65ae0f26a988f40cd74d83d8d05d60) by Roman Tsypuk).
+- integrated realtime dashboard ([74a790f](https://github.com/tsypuk/aws-client-monitor/commit/74a790fb6981537b3ba2656f1a8e7fb447044c6c) by Roman Tsypuk).
+- loading menu with table sorting ([5612e7e](https://github.com/tsypuk/aws-client-monitor/commit/5612e7ed1802710e75916b1b934f999bff46143f) by Roman Tsypuk).
+- added dashboard with style ([6c97526](https://github.com/tsypuk/aws-client-monitor/commit/6c97526ed33df4ad7e2fae0fe156d596aae47b0c) by Roman Tsypuk).
+- serve realtime dashboard ([d72340b](https://github.com/tsypuk/aws-client-monitor/commit/d72340b3f73ef80827ea4f24617dc8dff7eafc68) by Roman Tsypuk).
+- added udp to processing side ([1e8e01e](https://github.com/tsypuk/aws-client-monitor/commit/1e8e01e0e3f1be130c88f9e0caeced68d97b39a1) by Roman Tsypuk).
+- added udp payload ([9cd93a1](https://github.com/tsypuk/aws-client-monitor/commit/9cd93a1b8cb8fd050acd9c4926d5af4e8a39f140) by Roman Tsypuk).
+- updated dockefile build ([232d624](https://github.com/tsypuk/aws-client-monitor/commit/232d62481cefd77c17bc9595a57fe0249e8fb08d) by Roman Tsypuk).
+- moved main under cmd ([ba6ad7a](https://github.com/tsypuk/aws-client-monitor/commit/ba6ad7a7ad99e1823e515f34d02b4ce6b606bded) by Roman Tsypuk).
+- move to structure ([3906f54](https://github.com/tsypuk/aws-client-monitor/commit/3906f54019fb43b43c48b0d1db4085ccbafd36fc) by Roman Tsypuk).
+- moved domain events ([a3e6f34](https://github.com/tsypuk/aws-client-monitor/commit/a3e6f346f98216aad3363f0611df32fc146f64b8) by Roman Tsypuk).
+
+### Tests
+
+- added ApiCallAttempt ok sqs test ([82f458e](https://github.com/tsypuk/aws-client-monitor/commit/82f458e3edad829558ccaab89e045218d1f9370a) by Roman Tsypuk).
+- added ApiCallAttempt error test ([6744b0b](https://github.com/tsypuk/aws-client-monitor/commit/6744b0bc8e4e965da321317628d98204aafce862) by Roman Tsypuk).
+
+### Chore
+
+- updated test CI pipeline ([39c60fd](https://github.com/tsypuk/aws-client-monitor/commit/39c60fd515d88c6781dbc5309d3373840cd93afa) by Roman Tsypuk).
+- added docker image push latest on main commit ([48096fd](https://github.com/tsypuk/aws-client-monitor/commit/48096fd2c2052464653879a2617ec9c627925e6d) by Roman Tsypuk).
+- updated go install for linter ([6b9cbc0](https://github.com/tsypuk/aws-client-monitor/commit/6b9cbc02291c05fee6e14419e3639de91b027e20) by Roman Tsypuk).
+- updated go install ([70ed37a](https://github.com/tsypuk/aws-client-monitor/commit/70ed37a51a6805d339093f068be675f5dec36187) by Roman Tsypuk).
+- remap go version ([3f3d7c4](https://github.com/tsypuk/aws-client-monitor/commit/3f3d7c456fa4c6470ebdba5b30775b96089de261) by Roman Tsypuk).
+- added tests CI ([a6d82e5](https://github.com/tsypuk/aws-client-monitor/commit/a6d82e5432119ccbf30d2e49674c41c64504c2ce) by Roman Tsypuk).
+- updated gitignore ([dadd361](https://github.com/tsypuk/aws-client-monitor/commit/dadd3612b60bc8977558ceaec6f452684133775b) by Roman Tsypuk).
+
 ## [v0.0.5](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.5) - 2024-10-13
 
 <small>[Compare with v0.0.4](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.4...v0.0.5)</small>

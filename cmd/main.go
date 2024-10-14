@@ -63,7 +63,7 @@ func broadcastMessages() {
 	for {
 		message := <-state.BroadcastChan
 
-		print(message.UDPAddr.IP.String())
+		//print(message.UDPAddr.IP.String())
 
 		state.ClientsLock.Lock()
 		for client := range state.Clients {

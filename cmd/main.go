@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
+	"log"
 	"net"
 	"time"
 )
@@ -133,7 +134,9 @@ func main() {
 	go broadcastMessages()
 
 	// start web-server
-	router.CreateRouter(gin.Default()).Run(":8080")
+	if err := router.CreateRouter(gin.Default()).Run(":8080"); err != nil {
+		log.Fatal(err)
+	}
 
 	// Prevent the main function from exiting
 	for {

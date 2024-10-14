@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"io/ioutil"
+	"io"
 	"os"
 	"reflect"
 	"testing"
@@ -10,7 +10,7 @@ import (
 func loadJsonFromFile(filename string) []byte {
 	file, _ := os.Open(filename)
 	defer file.Close()
-	byteValue, _ := ioutil.ReadAll(file)
+	byteValue, _ := io.ReadAll(file)
 	return byteValue
 }
 

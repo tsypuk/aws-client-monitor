@@ -125,10 +125,10 @@ func broadcastMessages() {
 
 func main() {
 	// Goroutine to listen on UDP and write to the channel
-	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan, state.Ch2})
+	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan, state.LoggingChan})
 
 	// Goroutines to read from the channel
-	go writeToConsole(state.Ch2)
+	go writeToConsole(state.LoggingChan)
 
 	// Goroutine to broadcast the UDP data to WebSocket Clients
 	go broadcastMessages()

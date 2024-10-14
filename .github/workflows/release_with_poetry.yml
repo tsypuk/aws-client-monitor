@@ -1,4 +1,4 @@
-name: Release
+name: Release on TAG push
 on:
   push:
     tags:
@@ -46,6 +46,7 @@ jobs:
           prerelease: false
 
   docker:
+    needs: release  # Run this job only if 'test' job succeeds
     strategy:
       fail-fast: false
       matrix:

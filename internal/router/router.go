@@ -3,6 +3,7 @@ package router
 import (
 	"aws-client-monitor/docs"
 	"aws-client-monitor/internal/handler"
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -26,11 +27,12 @@ func CreateRouter(router *gin.Engine) *gin.Engine {
 
 	//router.LoadHTMLFiles("templates/realtime.html", "templates/dashboard.html", "templates/dashboard-layout.html")
 	// Load HTML templates
-	router.LoadHTMLGlob("templates/*")
+	//router.LoadHTMLGlob("templates/*")
 	//router.LoadHTMLFiles("templates/dashboard.html")
 	//router.LoadHTMLFiles("templates/dashboard-layout.html")
 
-	router.Static("/static", "./static")
+	//router.Static("/static", "./static")
+	router.Use(static.Serve("/", static.LocalFile("./react-admin/build", true)))
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	return router

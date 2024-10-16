@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.7](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.7) - 2024-10-16
+
+<small>[Compare with v0.0.6](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.6...v0.0.7)</small>
+
+### Features
+
+- include react-app into gin static endpoint ([bc9a6bf](https://github.com/tsypuk/aws-client-monitor/commit/bc9a6bfd795c42afef8d31a640e047256cd37943) by Roman Tsypuk).
+- added ui admin panel react-app ([b902739](https://github.com/tsypuk/aws-client-monitor/commit/b90273914aa83c5637ca6f2d18ef78486fb78f49) by Roman Tsypuk).
+- update channel naming for logging ([89802aa](https://github.com/tsypuk/aws-client-monitor/commit/89802aa1fa687e9e46b66e98146184f781810eb5) by Roman Tsypuk).
+
 ## [v0.0.6](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.6) - 2024-10-14
 
 <small>[Compare with v0.0.5](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.5...v0.0.6)</small>

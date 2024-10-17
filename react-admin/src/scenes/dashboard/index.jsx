@@ -12,10 +12,25 @@ import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import {useEffect, useState} from "react";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setPosts(data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+  }, []);
 
   return (
     <Box m="20px">
@@ -183,9 +198,9 @@ const Dashboard = () => {
               Recent Calls
             </Typography>
           </Box>
-          {mockTransactions.map((transaction, i) => (
+          {posts.map((transaction, i) => (
             <Box
-              key={`${transaction.txId}-${i}`}
+              key={`${transaction.userId}-${i}`}
               display="flex"
               justifyContent="space-between"
               alignItems="center"
@@ -198,10 +213,10 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  {transaction.txId}
+                  {transaction.title}
                 </Typography>
                 <Typography color={colors.grey[100]}>
-                  {transaction.user}
+                  {transaction.body}
                 </Typography>
               </Box>
               <Box color={colors.grey[100]}>{transaction.date}</Box>
@@ -210,7 +225,7 @@ const Dashboard = () => {
                 p="5px 10px"
                 borderRadius="4px"
               >
-                ${transaction.cost}
+                {transaction.id}ms
               </Box>
             </Box>
           ))}

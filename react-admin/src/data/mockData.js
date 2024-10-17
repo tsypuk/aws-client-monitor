@@ -559,6 +559,60 @@ export const mockLineData = [
     ],
   },
   {
+    id: "client-2",
+    color: tokens("dark").redAccent[500],
+    data: [
+      {
+        x: "plane",
+        y: 10,
+      },
+      {
+        x: "helicopter",
+        y: 175,
+      },
+      {
+        x: "boat",
+        y: 136,
+      },
+      {
+        x: "train",
+        y: 16,
+      },
+      {
+        x: "subway",
+        y: 135,
+      },
+      {
+        x: "bus",
+        y: 36,
+      },
+      {
+        x: "car",
+        y: 188,
+      },
+      {
+        x: "moto",
+        y: 32,
+      },
+      {
+        x: "bicycle",
+        y: 81,
+      },
+      {
+        x: "horse",
+        y: 10,
+      },
+      {
+        x: "skateboard",
+        y: 135,
+      },
+      {
+        x: "others",
+        y: 114,
+      },
+    ],
+  },
+  {
     id: "france",
     color: tokens("dark").blueAccent[300],
     data: [

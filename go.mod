@@ -3,6 +3,7 @@ module aws-client-monitor
 go 1.23.1
 
 require (
+	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/contrib v0.0.0-20240508051311-c1c6bf0061b0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/goccy/go-json v0.10.3

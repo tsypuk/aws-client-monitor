@@ -3,6 +3,8 @@ package router
 import (
 	"aws-client-monitor/docs"
 	"aws-client-monitor/internal/handler"
+	"github.com/gin-contrib/cors"
+	//"github.com/gin-gonic/contrib/cors"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -11,6 +13,14 @@ import (
 
 func CreateRouter(router *gin.Engine) *gin.Engine {
 	docs.SwaggerInfo.BasePath = "/api/v1"
+
+	// CORS middleware setup
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
+		AllowCredentials: true,
+	}))
 	v1 := router.Group("/api/v1")
 	{
 		v1.GET("/status", handler.StatusHandler)

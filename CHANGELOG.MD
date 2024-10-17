@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.8](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.8) - 2024-10-17
+
+<small>[Compare with v0.0.7](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.7...v0.0.8)</small>
+
+### Features
+
+- enabled cors for react:3000 app ([7527ac9](https://github.com/tsypuk/aws-client-monitor/commit/7527ac9db28931bcb6f929d98a56cb76728624dc) by Roman Tsypuk).
+- status indicator added to index ([c473ae0](https://github.com/tsypuk/aws-client-monitor/commit/c473ae00d29c7c9d97f5d579b915340b8d16fe20) by Roman Tsypuk).
+- added status indicator component ([28fc901](https://github.com/tsypuk/aws-client-monitor/commit/28fc9018b688740bf5e33f1a457431cb2dc07087) by Roman Tsypuk).
+- added ES ts support ([43711d5](https://github.com/tsypuk/aws-client-monitor/commit/43711d547047afbdda4ccb4b902cc8d00d2bcb77) by Roman Tsypuk).
+- app adoption ([2178529](https://github.com/tsypuk/aws-client-monitor/commit/21785290e4a838068d0e25a9eb2c77976d8cceb7) by Roman Tsypuk).
+
 ## [v0.0.7](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.7) - 2024-10-16
 
 <small>[Compare with v0.0.6](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.6...v0.0.7)</small>

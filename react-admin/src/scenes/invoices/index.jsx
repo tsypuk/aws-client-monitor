@@ -3,6 +3,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 const Invoices = () => {
   const theme = useTheme();

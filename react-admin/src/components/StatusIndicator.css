@@ -8,13 +8,13 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: red; /* Default to red */
+    background-color: rgb(219, 79, 74); /* Default to red */
 }
 
 .status-indicator.green {
-    background-color: green;
+    background-color: rgb(76, 206, 172);
 }
 
 .status-indicator.red {
-    background-color: red;
+    background-color: rgb(219, 79, 74);
 }

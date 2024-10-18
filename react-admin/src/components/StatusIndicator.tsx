@@ -35,7 +35,7 @@ const StatusIndicator: React.FC = () => {
     return (
         <div className="status-container">
             <div className={`status-indicator ${status}`}></div>
-            <p>Status: {status === 'green' ? 'Operational' : 'Down'}</p>
+            <p>BackEnd: {status === 'green' ? 'Operational' : 'Down'}</p>
         </div>
     );
 };

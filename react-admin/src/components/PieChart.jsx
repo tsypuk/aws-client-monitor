@@ -3,7 +3,6 @@ import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 import { mockPieData as data } from "../data/mockData";
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const PieChart = () => {
   const theme = useTheme();

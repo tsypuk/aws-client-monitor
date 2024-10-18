@@ -1,4 +1,3 @@
-import {useEffect, useState} from "react";
 import {Route, Routes} from "react-router-dom";
 import Topbar from "./scenes/global/TopBar";
 import Sidebar from "./scenes/global/SideBar";
@@ -16,7 +15,6 @@ import {CssBaseline, ThemeProvider} from "@mui/material";
 import {ColorModeContext, useMode} from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const App = () => {
     const [theme, colorMode] = useMode();

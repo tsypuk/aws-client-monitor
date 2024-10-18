@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { tokens } from "../../theme";
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const FAQ = () => {
   const theme = useTheme();

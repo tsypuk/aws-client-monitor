@@ -14,7 +14,6 @@ import ProgressCircle from "../../components/ProgressCircle";
 import React, {useEffect, useState} from "react";
 import StatusIndicator from "../../components/StatusIndicator";
 import WebSocketStatus from "../../components/WebSocketIndicator";
-import WebSocketDataTable from "../realtime/WebSocketDataTable";
 
 const Dashboard = () => {
     const theme = useTheme();

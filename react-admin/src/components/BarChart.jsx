@@ -3,7 +3,6 @@ import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import { mockBarData as data } from "../data/mockData";
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const BarChart = ({ isDashboard = false }) => {
   const theme = useTheme();

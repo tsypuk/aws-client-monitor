@@ -4,7 +4,6 @@ import { geoFeatures } from "../data/mockGeoFEatures";
 import { tokens } from "../theme";
 import { mockGeographyData as data } from "../data/mockData";
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const GeographyChart = ({ isDashboard = false }) => {
   const theme = useTheme();

@@ -5,7 +5,6 @@ import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const Contacts = () => {
   const theme = useTheme();

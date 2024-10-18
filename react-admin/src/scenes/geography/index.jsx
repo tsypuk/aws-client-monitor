@@ -3,7 +3,6 @@ import GeographyChart from "../../components/GeographyChart";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const Geography = () => {
   const theme = useTheme();

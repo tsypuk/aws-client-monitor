@@ -9,7 +9,6 @@ import {Box, List, ListItem, ListItemText, Typography, useTheme,} from "@mui/mat
 import Header from "../../components/Header";
 import {tokens} from "../../theme";
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 const Calendar = () => {
     const theme = useTheme();

@@ -21,7 +21,7 @@ jobs:
           node-version: '22.4.0'  # Specify Node.js version
 
       - name: Install dependencies
-        run: cd react-admin && npm install
+        run: cd react-admin && npm install --force
 
       - name: Build React app
         run: cd react-admin && npm run build

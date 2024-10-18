@@ -31,9 +31,9 @@ func CreateRouter(router *gin.Engine) *gin.Engine {
 	}
 
 	router.GET("/ws", handler.WsHandler)
-	router.GET("/realtime", handler.ServeRealTime)
-	router.GET("/dashboard", handler.ServeDashBoard)
-	router.GET("/dashboard-layout.html", handler.ServeDashBoardLayout)
+	//router.GET("/realtime", handler.ServeRealTime)
+	//router.GET("/dashboard", handler.ServeDashBoard)
+	//router.GET("/dashboard-layout.html", handler.ServeDashBoardLayout)
 
 	//router.LoadHTMLFiles("templates/realtime.html", "templates/dashboard.html", "templates/dashboard-layout.html")
 	// Load HTML templates

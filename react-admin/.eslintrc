@@ -6,6 +6,6 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    // your rules
+    "react/prop-types": "off"
   }
 }

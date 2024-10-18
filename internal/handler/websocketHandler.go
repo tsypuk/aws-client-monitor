@@ -5,14 +5,22 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"net/http"
+	"time"
 )
 
 // WebSocket upgrader
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:   1024,
+	WriteBufferSize:  1024,
+	CheckOrigin:      func(r *http.Request) bool { return true },
+	HandshakeTimeout: time.Duration(time.Second * 5),
+}
 
 // WebSocket handler, to handle new connections
 func WsHandler(c *gin.Context) {
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+
 	if err != nil {
 		fmt.Println("Failed to set websocket upgrade: ", err)
 		return

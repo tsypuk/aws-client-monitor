@@ -4,6 +4,7 @@ import { tokens } from "../theme";
 import { mockLineData as data } from "../data/mockData";
 import React from 'react'
 
+/* eslint-disable no-unused-vars */
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

@@ -14,7 +14,7 @@ import Geography from "./scenes/geography";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {ColorModeContext, useMode} from "./theme";
 import Calendar from "./scenes/calendar/calendar";
-import React from 'react'
+import React, {useState } from 'react';
 
 const App = () => {
     const [theme, colorMode] = useMode();

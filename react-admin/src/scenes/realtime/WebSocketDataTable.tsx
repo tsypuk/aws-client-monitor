@@ -30,10 +30,10 @@ const WebSocketDataTable: React.FC = () => {
             <tbody>
             {tableData.map((row, index) => (
                 <tr key={index}>
-                    <td>{row.id}</td>
-                    <td>{row.name}</td>
-                    <td>{row.status}</td>
-                    <td>{row.createdAt}</td>
+                    <td>{row.Api}</td>
+                    <td>{row.Latency}</td>
+                    <td>{row.Latency}</td>
+                    <td>{row.FinalHttpStatusCode}</td>
                 </tr>
             ))}
             </tbody>

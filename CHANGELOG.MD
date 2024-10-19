@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.9](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.9) - 2024-10-18
+
+<small>[Compare with v0.0.8](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.8...v0.0.9)</small>
+
+### Features
+
+- resolve websocket origin check ([2a2eb08](https://github.com/tsypuk/aws-client-monitor/commit/2a2eb0817aedc4c43dafeaedc4750ad71f919336) by Roman Tsypuk).
+- updated all pages with react directive ([1ac384e](https://github.com/tsypuk/aws-client-monitor/commit/1ac384e31173c26c660349cd69c33a1e0430309d) by Roman Tsypuk).
+- updated router ([c3d67ab](https://github.com/tsypuk/aws-client-monitor/commit/c3d67ab7f34126d2bcf7370050a80a07c1886b4e) by Roman Tsypuk).
+- added backend staus indicator component ([ab75e6f](https://github.com/tsypuk/aws-client-monitor/commit/ab75e6fbbf9e947e60b87cfc09301014b0a1f9b7) by Roman Tsypuk).
+- added websocket indicator component ([319873a](https://github.com/tsypuk/aws-client-monitor/commit/319873ad26ffffac726c973442227119261c3855) by Roman Tsypuk).
+- dockerfile updated with react admin builder step ([a4b273b](https://github.com/tsypuk/aws-client-monitor/commit/a4b273b22c81adc1214e1cf8cf4da722633fe34f) by Roman Tsypuk).
+- added websocket service ([9161bd5](https://github.com/tsypuk/aws-client-monitor/commit/9161bd53b8b91c12efd504bab8f72a5802f4ed14) by Roman Tsypuk).
+
+### Chore
+
+- updated github test actions ([59fd8c5](https://github.com/tsypuk/aws-client-monitor/commit/59fd8c5878d906e06c786c07c16a4cda4b96f086) by Roman Tsypuk).
+- updated es lint config ([6f97696](https://github.com/tsypuk/aws-client-monitor/commit/6f976965c6309bd26a8e8e5a4e45e3d83d80a62c) by Roman Tsypuk).
+- updated npm command with force ([b7023e5](https://github.com/tsypuk/aws-client-monitor/commit/b7023e5195bed74abff13992959eee9b15ad20c1) by Roman Tsypuk).
+- added build react to tests github actions ([9190289](https://github.com/tsypuk/aws-client-monitor/commit/919028990b58b38f56ed7f1d96d317cb5e455ded) by Roman Tsypuk).
+- updated eslintrc with exclusion ([547030b](https://github.com/tsypuk/aws-client-monitor/commit/547030be5a1991db3b2eb4256520dc12ba0e5a2f) by Roman Tsypuk).
+
+### Bug Fixes
+
+- no-unused-vars ([82b522c](https://github.com/tsypuk/aws-client-monitor/commit/82b522cfa4fa434a8148f348a42248f9fcc59789) by Roman Tsypuk).
+- remove unused imports ([be29be4](https://github.com/tsypuk/aws-client-monitor/commit/be29be477c1f647fbe6515390d1547728a095604) by Roman Tsypuk).
+
 ## [v0.0.8](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.8) - 2024-10-17
 
 <small>[Compare with v0.0.7](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.7...v0.0.8)</small>

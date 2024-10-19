@@ -47,12 +47,18 @@ export type Status = 'Operational' | 'Down' | 'error';
 export class WebSocketService {
     private readonly url: string;
     private socket: WebSocket | null;
+
     private listeners: Array<(data: WebSocketData) => void>;
     private counterListeners: Array<(data: WebSocketCounter) => void>;
     private counterAttemptListeners: Array<(data: WebSocketCounter) => void>;
     private statusListeners: Array<(status: Status) => void>;
+    private clientListeners: Array<(count: number) => void>;
+    private regionListeners: Array<(count: number) => void>;
+
     private _counter: WebSocketCounter;
     private _counterAttempt: WebSocketCounter;
+    private _clientCounter: Set<string> = new Set();
+    private _regionCounter: Set<string> = new Set();
 
     constructor(url: string) {
         this.url = url;
@@ -61,6 +67,9 @@ export class WebSocketService {
         this.statusListeners = [];
         this.counterListeners = [];
         this.counterAttemptListeners = [];
+        this.clientListeners = [];
+        this.regionListeners = [];
+
         this._counter = {
             counter200: 0,
             counter400: 0
@@ -85,12 +94,20 @@ export class WebSocketService {
                 if (dataType.Type === 'ApiCall') {
                     const data: WebSocketData = JSON.parse(message.data);
 
-                    // Check the FinalHttpStatusCode and accumulate counts
+                    // Process status
                     if (data.FinalHttpStatusCode === 200) {
                         this._counter.counter200 = this._counter.counter200 + 1;
                     } else {
                         this._counter.counter400 = this._counter.counter400 + 1;
                     }
+                    // Process clients
+                    this._clientCounter.add(data.ClientId)
+                    this._notifyClientListeners(this._clientCounter.size)
+
+                    // Process region
+                    this._regionCounter.add(data.Region)
+                    this._notifyRegionListeners(this._regionCounter.size)
+
                     this._notifyListeners(data);
                     this._notifyCounterListeners(this._counter);
                 }
@@ -114,6 +131,33 @@ export class WebSocketService {
             }
         };
     }
+
+    private _notifyClientListeners(data: number) {
+        this.clientListeners.forEach(listener => listener(data));
+    }
+
+    addClientListener(listener: (data: number) => void) {
+        this.clientListeners.push(listener);
+    }
+
+    removeClientListener(listener: (data: number) => void) {
+        this.clientListeners = this.clientListeners.filter(l => l !== listener);
+    }
+
+    // region
+
+    private _notifyRegionListeners(data: number) {
+        this.regionListeners.forEach(listener => listener(data));
+    }
+
+    addRegionListener(listener: (data: number) => void) {
+        this.regionListeners.push(listener);
+    }
+
+    removeRegionListener(listener: (data: number) => void) {
+        this.regionListeners = this.regionListeners.filter(l => l !== listener);
+    }
+
 
     private _notifyCounterListeners(data: WebSocketCounter) {
         this.counterListeners.forEach(listener => listener(data));

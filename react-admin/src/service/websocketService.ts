@@ -92,6 +92,7 @@ export class WebSocketService {
                         this._counter.counter400 = this._counter.counter400 + 1;
                     }
                     this._notifyListeners(data);
+                    this._notifyCounterListeners(this._counter);
                 }
 
                 if (dataType.Type === 'ApiCallAttempt') {
@@ -105,13 +106,12 @@ export class WebSocketService {
                         this._counter.counter400 = this._counter.counter400 + 1;
                     }
                     this._notifyListeners(data);
+                    this._notifyCounterAttemptListeners(this._counter);
                 }
 
             } catch (error) {
                 console.error('Error parsing WebSocket message:', error);
             }
-
-            this._notifyCounterListeners(this._counter);
         };
     }
 

@@ -15,6 +15,7 @@ import WebSocketStatus from "../../components/WebSocketIndicator";
 import ApiCallsAttempts from "../../components/ApiCallsAttempts";
 import ApiCalls from "../../components/ApiCalls";
 import Clients from "../../components/Clients";
+import Regions from "../../components/Regions";
 
 const Dashboard = () => {
     const theme = useTheme();
@@ -102,17 +103,8 @@ const Dashboard = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <StatBox
-                        title="4"
-                        subtitle="Region Traffic"
-                        progress="0.80"
-                        increase="+43%"
-                        icon={
-                            <TrafficIcon
-                                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
-                            />
-                        }
-                    />
+                    <Regions/>
+
                 </Box>
 
                 {/* ROW 2 */}

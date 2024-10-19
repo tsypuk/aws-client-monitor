@@ -1,8 +1,6 @@
 import {Box, Button, IconButton, Typography, useTheme} from "@mui/material";
 import {tokens} from "../../theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
@@ -14,6 +12,8 @@ import ProgressCircle from "../../components/ProgressCircle";
 import React, {useEffect, useState} from "react";
 import StatusIndicator from "../../components/StatusIndicator";
 import WebSocketStatus from "../../components/WebSocketIndicator";
+import ApiCallsAttempts from "../../components/ApiCallsAttempts";
+import ApiCalls from "../../components/ApiCalls";
 
 const Dashboard = () => {
     const theme = useTheme();
@@ -73,17 +73,7 @@ const Dashboard = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <StatBox
-                        title="12,361"
-                        subtitle="API Calls"
-                        progress="0.75"
-                        increase="+14%"
-                        icon={
-                            <EmailIcon
-                                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
-                            />
-                        }
-                    />
+                    <ApiCalls/>
                 </Box>
                 <Box
                     gridColumn="span 3"
@@ -92,17 +82,7 @@ const Dashboard = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <StatBox
-                        title="431,225"
-                        subtitle="API Calls Attempts"
-                        progress="0.50"
-                        increase="+21%"
-                        icon={
-                            <PointOfSaleIcon
-                                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
-                            />
-                        }
-                    />
+                    <ApiCallsAttempts/>
                 </Box>
                 <Box
                     gridColumn="span 3"

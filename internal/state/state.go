@@ -9,4 +9,6 @@ import (
 var BroadcastChan = make(chan domain.UdpPayload)
 var LoggingChan = make(chan domain.UdpPayload)
 var Clients = make(map[*websocket.Conn]bool)
+var ApiCallClients = make(map[*websocket.Conn]bool)
 var ClientsLock sync.Mutex
+var ApiCallClientsLock sync.Mutex

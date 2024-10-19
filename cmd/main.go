@@ -120,6 +120,44 @@ func broadcastMessages() {
 			print("Unknown message Type: %s", message.Payload)
 		}
 		state.ClientsLock.Unlock()
+
+		//	ApiCall Websocket
+		state.ApiCallClientsLock.Lock()
+		for client := range state.ApiCallClients {
+
+			if apiCall, err := domain.NewApiCall(message); err != nil {
+				print("Error unmarshalling ApiCall: %v", err)
+			} else {
+				if err := apiCall.Validate(); err != nil {
+					print("Error validating ApiCall: %v", err)
+				} else {
+					//dt.Format(time.RFC3339),
+					err = client.WriteJSON(apiCall)
+					if err != nil {
+						fmt.Println("Error sending WebSocket message:", err)
+						client.Close() // Close the connection if there's an error
+						delete(state.ApiCallClients, client)
+					}
+				}
+			}
+
+			if apiCallAttempt, err := domain.NewApiCallAttempt(message); err != nil {
+				print("Error unmarshalling ApiCallAttempt: %v", err)
+			} else {
+				if err := apiCallAttempt.Validate(); err != nil {
+					print("Error validating ApiCallAttempt: %v", err)
+				} else {
+					err = client.WriteJSON(apiCallAttempt)
+					if err != nil {
+						fmt.Println("Error sending WebSocket message:", err)
+						client.Close() // Close the connection if there's an error
+						delete(state.ApiCallClients, client)
+					}
+					continue
+				}
+			}
+		}
+		state.ApiCallClientsLock.Unlock()
 	}
 }
 

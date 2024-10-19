@@ -46,3 +46,33 @@ func WsHandler(c *gin.Context) {
 		}
 	}
 }
+
+// WebSocket handler, to handle new connections
+func WsApiCallHandler(c *gin.Context) {
+	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+
+	if err != nil {
+		fmt.Println("Failed to set websocket upgrade: ", err)
+		return
+	}
+	defer conn.Close()
+
+	state.ApiCallClientsLock.Lock()
+	state.ApiCallClients[conn] = true
+	state.ApiCallClientsLock.Unlock()
+
+	defer func() {
+		state.ApiCallClientsLock.Lock()
+		delete(state.ApiCallClients, conn)
+		state.ApiCallClientsLock.Unlock()
+	}()
+
+	// Keep the connection open
+	for {
+		_, _, err := conn.ReadMessage()
+		if err != nil {
+			fmt.Println("Error reading WebSocket message:", err)
+			break
+		}
+	}
+}

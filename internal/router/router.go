@@ -4,7 +4,6 @@ import (
 	"aws-client-monitor/docs"
 	"aws-client-monitor/internal/handler"
 	"github.com/gin-contrib/cors"
-	//"github.com/gin-gonic/contrib/cors"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -31,6 +30,7 @@ func CreateRouter(router *gin.Engine) *gin.Engine {
 	}
 
 	router.GET("/ws", handler.WsHandler)
+	router.GET("/ws/apicall", handler.WsApiCallHandler)
 	//router.GET("/realtime", handler.ServeRealTime)
 	//router.GET("/dashboard", handler.ServeDashBoard)
 	//router.GET("/dashboard-layout.html", handler.ServeDashBoardLayout)

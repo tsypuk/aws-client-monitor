@@ -101,12 +101,12 @@ export class WebSocketService {
 
                     // Check the FinalHttpStatusCode and accumulate counts
                     if (data.HttpStatusCode === 200) {
-                        this._counter.counter200 = this._counter.counter200 + 1;
+                        this._counterAttempt.counter200 = this._counterAttempt.counter200 + 1;
                     } else {
-                        this._counter.counter400 = this._counter.counter400 + 1;
+                        this._counterAttempt.counter400 = this._counterAttempt.counter400 + 1;
                     }
                     this._notifyListeners(data);
-                    this._notifyCounterAttemptListeners(this._counter);
+                    this._notifyCounterAttemptListeners(this._counterAttempt);
                 }
 
             } catch (error) {

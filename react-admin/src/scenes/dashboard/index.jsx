@@ -14,6 +14,7 @@ import StatusIndicator from "../../components/StatusIndicator";
 import WebSocketStatus from "../../components/WebSocketIndicator";
 import ApiCallsAttempts from "../../components/ApiCallsAttempts";
 import ApiCalls from "../../components/ApiCalls";
+import Clients from "../../components/Clients";
 
 const Dashboard = () => {
     const theme = useTheme();
@@ -91,17 +92,8 @@ const Dashboard = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <StatBox
-                        title="4"
-                        subtitle="Clients"
-                        progress="0.30"
-                        increase="+5%"
-                        icon={
-                            <PersonAddIcon
-                                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
-                            />
-                        }
-                    />
+                    <Clients/>
+
                 </Box>
                 <Box
                     gridColumn="span 3"

@@ -20,6 +20,7 @@ export interface WebSocketData {
     FinalAwsException: string;
     FinalAwsExceptionMessage: string;
 }
+
 export interface WebSocketAttemptData {
     Version: number,
     ClientId: string,
@@ -42,6 +43,8 @@ export type WebSocketCounter = {
     counter400: number;
 }
 
+export type ClientsCounter = Map<string, number>
+
 export type Status = 'Operational' | 'Down' | 'error';
 
 export class WebSocketService {
@@ -52,12 +55,12 @@ export class WebSocketService {
     private counterListeners: Array<(data: WebSocketCounter) => void>;
     private counterAttemptListeners: Array<(data: WebSocketCounter) => void>;
     private statusListeners: Array<(status: Status) => void>;
-    private clientListeners: Array<(count: number) => void>;
+    private clientListeners: Array<(count: ClientsCounter) => void>;
     private regionListeners: Array<(count: number) => void>;
 
     private _counter: WebSocketCounter;
     private _counterAttempt: WebSocketCounter;
-    private _clientCounter: Set<string> = new Set();
+    private _clientCounter: ClientsCounter = new Map<string, number>();
     private _regionCounter: Set<string> = new Set();
 
     constructor(url: string) {
@@ -82,6 +85,17 @@ export class WebSocketService {
         this.connect()
     }
 
+    incrementClientCount(clientId: string) {
+        const newCounter = new Map(this._clientCounter);
+        if (newCounter.has(clientId)) {
+            newCounter.set(clientId, newCounter.get(clientId)! + 1);
+        } else {
+            newCounter.set(clientId, 1);
+        }
+        this._clientCounter = newCounter
+    }
+
+
     connect() {
         this.socket = new WebSocket(this.url);
 
@@ -104,8 +118,8 @@ export class WebSocketService {
                         this._counter.counter400 = this._counter.counter400 + 1;
                     }
                     // Process clients
-                    this._clientCounter.add(data.ClientId)
-                    this._notifyClientListeners(this._clientCounter.size)
+                    this.incrementClientCount(data.ClientId)
+                    this._notifyClientListeners(this._clientCounter)
 
                     // Process region
                     this._regionCounter.add(data.Region)
@@ -113,8 +127,7 @@ export class WebSocketService {
 
                     this._notifyListeners(data);
                     this._notifyCounterListeners(this._counter);
-                } else
-                if (dataType.Type === 'ApiCallAttempt') {
+                } else if (dataType.Type === 'ApiCallAttempt') {
 
                     const data: WebSocketAttemptData = JSON.parse(message.data);
 
@@ -134,15 +147,15 @@ export class WebSocketService {
         };
     }
 
-    private _notifyClientListeners(data: number) {
+    private _notifyClientListeners(data: ClientsCounter) {
         this.clientListeners.forEach(listener => listener(data));
     }
 
-    addClientListener(listener: (data: number) => void) {
+    addClientListener(listener: (data: ClientsCounter) => void) {
         this.clientListeners.push(listener);
     }
 
-    removeClientListener(listener: (data: number) => void) {
+    removeClientListener(listener: (data: ClientsCounter) => void) {
         this.clientListeners = this.clientListeners.filter(l => l !== listener);
     }
 

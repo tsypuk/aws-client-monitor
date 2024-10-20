@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.10](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.10) - 2024-10-20
+
+<small>[Compare with v0.0.9](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.9...v0.0.10)</small>
+
+### Features
+
+- clients counter has progress sectors per each client with individual colors ([46cd0b7](https://github.com/tsypuk/aws-client-monitor/commit/46cd0b7b17ab4e702321e5a9966868efaea482bb) by Roman Tsypuk).
+- added multi box component ([993507e](https://github.com/tsypuk/aws-client-monitor/commit/993507e1e0f416bd0736a6f945192fa18949a68d) by Roman Tsypuk).
+- websocket move client counter to statistics ([41c7c43](https://github.com/tsypuk/aws-client-monitor/commit/41c7c43432946ed0321e0cd0c97411ba21a1be12) by Roman Tsypuk).
+- added muti circle progress bar component ([b51aa6e](https://github.com/tsypuk/aws-client-monitor/commit/b51aa6e538f0e2915394fd01519ab262cbde9df4) by Roman Tsypuk).
+- added base api type; changed validation flow ([f15e11c](https://github.com/tsypuk/aws-client-monitor/commit/f15e11c04df8b3bfa70c1ca6eaa627de6433ba2f) by Roman Tsypuk).
+- added aws region traffic realtime monitoring ([0646044](https://github.com/tsypuk/aws-client-monitor/commit/0646044d54cfdd31d5d30e9ce447f4ee70c14750) by Roman Tsypuk).
+- added aws clients realtime counter ([539d5c5](https://github.com/tsypuk/aws-client-monitor/commit/539d5c5be0867d9973e79c00d55a861c881d082f) by Roman Tsypuk).
+- added client and region tracking ([afd422a](https://github.com/tsypuk/aws-client-monitor/commit/afd422ab41b6b27036464bf9fae7b9564a4b67ac) by Roman Tsypuk).
+- updated APiCallAttempts component ([023190e](https://github.com/tsypuk/aws-client-monitor/commit/023190e1d5730a007be42434fdd8cf00a43160f7) by Roman Tsypuk).
+- updated websocket listeners ([5116ac1](https://github.com/tsypuk/aws-client-monitor/commit/5116ac18b729d8df73f0b89aaa63e72c3769f316) by Roman Tsypuk).
+- added parsing of type in socket service ([bf7744d](https://github.com/tsypuk/aws-client-monitor/commit/bf7744dc5f517fc9459629e2d1aa643fcbf6b733) by Roman Tsypuk).
+- injected ApiCallsAttempts.tsx component to main page ([c1eda7e](https://github.com/tsypuk/aws-client-monitor/commit/c1eda7e26b68ece2fe571f82253137283f13ed3c) by Roman Tsypuk).
+- created ApiCall component ([5d7a5f0](https://github.com/tsypuk/aws-client-monitor/commit/5d7a5f02928bba6b733f025101b813c77cdd9eae) by Roman Tsypuk).
+- updated socket structure ([355f924](https://github.com/tsypuk/aws-client-monitor/commit/355f924181fc6f2ae1484f19f39a8523cda6100c) by Roman Tsypuk).
+- added websocket for apicall and apicallattempt ([b60ca9b](https://github.com/tsypuk/aws-client-monitor/commit/b60ca9bdb75b2edb15f4c95079973b331f2f900b) by Roman Tsypuk).
+
+### Chore
+
+- updated changelog ([23aa89e](https://github.com/tsypuk/aws-client-monitor/commit/23aa89ec7818b2789895294dea306130dec0e8f8) by Roman Tsypuk).
+
 ## [v0.0.9](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.9) - 2024-10-18
 
 <small>[Compare with v0.0.8](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.8...v0.0.9)</small>
@@ -27,11 +53,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - updated npm command with force ([b7023e5](https://github.com/tsypuk/aws-client-monitor/commit/b7023e5195bed74abff13992959eee9b15ad20c1) by Roman Tsypuk).
 - added build react to tests github actions ([9190289](https://github.com/tsypuk/aws-client-monitor/commit/919028990b58b38f56ed7f1d96d317cb5e455ded) by Roman Tsypuk).
 - updated eslintrc with exclusion ([547030b](https://github.com/tsypuk/aws-client-monitor/commit/547030be5a1991db3b2eb4256520dc12ba0e5a2f) by Roman Tsypuk).
-
-### Bug Fixes
-
-- no-unused-vars ([82b522c](https://github.com/tsypuk/aws-client-monitor/commit/82b522cfa4fa434a8148f348a42248f9fcc59789) by Roman Tsypuk).
-- remove unused imports ([be29be4](https://github.com/tsypuk/aws-client-monitor/commit/be29be477c1f647fbe6515390d1547728a095604) by Roman Tsypuk).
 
 ## [v0.0.8](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.8) - 2024-10-17
 

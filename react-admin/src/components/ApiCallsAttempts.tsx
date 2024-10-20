@@ -19,7 +19,7 @@ const ApiCalls: React.FC = () => {
         };
 
         websocketService.addCounterAttemptListener(handleCountChange);
-        websocketService.connect();
+        // websocketService.connect();
 
         return () => {
             websocketService.removeCounterAttemptListener(handleCountChange);

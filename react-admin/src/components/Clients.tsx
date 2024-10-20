@@ -18,7 +18,7 @@ const Clients: React.FC = () => {
         };
 
         websocketService.addClientListener(handleCountChange);
-        websocketService.connect();
+        // websocketService.connect();
 
         return () => {
             websocketService.removeClientListener(handleCountChange);

@@ -78,6 +78,8 @@ export class WebSocketService {
             counter200: 0,
             counter400: 0
         }
+
+        this.connect()
     }
 
     connect() {
@@ -88,6 +90,7 @@ export class WebSocketService {
         this.socket.onerror = () => this._notifyStatusListeners('error');
         this.socket.onmessage = (message) => {
             console.log(message.data)
+            this._notifyStatusListeners('Operational');
             try {
                 const dataType: WebSocketDataType = JSON.parse(message.data);
 
@@ -110,8 +113,7 @@ export class WebSocketService {
 
                     this._notifyListeners(data);
                     this._notifyCounterListeners(this._counter);
-                }
-
+                } else
                 if (dataType.Type === 'ApiCallAttempt') {
 
                     const data: WebSocketAttemptData = JSON.parse(message.data);

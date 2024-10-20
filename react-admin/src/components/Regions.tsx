@@ -19,7 +19,7 @@ const Regions: React.FC = () => {
         };
 
         websocketService.addRegionListener(handleCountChange);
-        websocketService.connect();
+        // websocketService.connect();
 
         return () => {
             websocketService.removeRegionListener(handleCountChange);

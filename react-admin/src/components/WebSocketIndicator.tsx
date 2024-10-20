@@ -11,7 +11,7 @@ const WebSocketStatus: React.FC = () => {
         };
 
         websocketService.addStatusListener(handleStatusChange);
-        websocketService.connect();
+        // websocketService.connect();
 
         return () => {
             websocketService.removeStatusListener(handleStatusChange);

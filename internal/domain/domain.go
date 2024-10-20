@@ -11,10 +11,22 @@ type UdpPayload struct {
 	Payload []byte
 }
 
+type ApiBaseType struct {
+	Type string `json:"Type"`
+}
+
+func NewApiBaseType(payload UdpPayload) (*ApiBaseType, error) {
+	var apiBaseType ApiBaseType
+	if err := json.Unmarshal(payload.Payload, &apiBaseType); err != nil {
+		return nil, fmt.Errorf("unmarshal payload Error: %w", err)
+	}
+	return &apiBaseType, nil
+}
+
 type ApiCallAttempt struct {
+	ApiBaseType
 	Version             int    `json:"Version"`
 	ClientId            string `json:"ClientId"`
-	Type                string `json:"Type"`
 	Service             string `json:"Service"`
 	Api                 string `json:"Api"`
 	Timestamp           int64  `json:"Timestamp"`
@@ -33,23 +45,23 @@ type ApiCallAttempt struct {
 func NewApiCallAttempt(payload UdpPayload) (*ApiCallAttempt, error) {
 	var apiCallAttempt ApiCallAttempt
 	if err := json.Unmarshal(payload.Payload, &apiCallAttempt); err != nil {
-		return nil, fmt.Errorf("unmarshal payload: %w", err)
+		return nil, fmt.Errorf("unmarshal payload Error: %w", err)
 	}
 	return &apiCallAttempt, nil
 }
 
 func (apiCallAttempt *ApiCallAttempt) Validate() error {
 	if apiCallAttempt.Type != "ApiCallAttempt" {
-		return fmt.Errorf("invalid api call type: %s", apiCallAttempt.Type)
+		return fmt.Errorf("validation Error: Invalid api call type: %s", apiCallAttempt.Type)
 	}
 	return nil
 }
 
 // Struct for the ApiCall message
 type ApiCall struct {
+	ApiBaseType
 	Version                  int    `json:"Version"`
 	ClientId                 string `json:"ClientId"`
-	Type                     string `json:"Type"`
 	Service                  string `json:"Service"`
 	Api                      string `json:"Api"`
 	Timestamp                int64  `json:"Timestamp"`
@@ -66,14 +78,14 @@ type ApiCall struct {
 func NewApiCall(payload UdpPayload) (*ApiCall, error) {
 	var apiCall ApiCall
 	if err := json.Unmarshal(payload.Payload, &apiCall); err != nil {
-		return nil, fmt.Errorf("unmarshal payload: %w", err)
+		return nil, fmt.Errorf("unmarshal payload Error: %w", err)
 	}
 	return &apiCall, nil
 }
 
 func (apiCall *ApiCall) Validate() error {
 	if apiCall.Type != "ApiCall" {
-		return fmt.Errorf("invalid api call type: %s", apiCall.Type)
+		return fmt.Errorf("validation Error: Invalid api call type: %s", apiCall.Type)
 	}
 	return nil
 }

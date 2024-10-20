@@ -66,35 +66,32 @@ func broadcastMessages() {
 		state.ApiCallClientsLock.Lock()
 		for client := range state.ApiCallClients {
 
-			if apiCall, err := domain.NewApiCall(message); err != nil {
-				print("Error unmarshalling ApiCall: %v", err)
-			} else {
-				if err := apiCall.Validate(); err != nil {
-
-					if apiCallAttempt, err := domain.NewApiCallAttempt(message); err != nil {
-						print("Error unmarshalling ApiCallAttempt: %v", err)
-					} else {
-						if err := apiCallAttempt.Validate(); err != nil {
-							print("Error validating ApiCallAttempt: %v", err)
-						} else {
-							err = client.WriteJSON(apiCallAttempt)
-							if err != nil {
+			if apiType, err := domain.NewApiBaseType(message); err == nil {
+				switch apiType.Type {
+				case "ApiCall":
+					if apiCall, err := domain.NewApiCall(message); err == nil {
+						if err := apiCall.Validate(); err == nil {
+							if err = client.WriteJSON(apiCall); err != nil {
 								fmt.Println("Error sending WebSocket message:", err)
 								client.Close() // Close the connection if there's an error
 								delete(state.ApiCallClients, client)
 							}
-							continue
 						}
 					}
-				} else {
-					//dt.Format(time.RFC3339),
-					err = client.WriteJSON(apiCall)
-					if err != nil {
-						fmt.Println("Error sending WebSocket message:", err)
-						client.Close() // Close the connection if there's an error
-						delete(state.ApiCallClients, client)
+
+				case "ApiCallAttempt":
+					if apiCallAttempt, err := domain.NewApiCallAttempt(message); err == nil {
+						if err := apiCallAttempt.Validate(); err == nil {
+							if err = client.WriteJSON(apiCallAttempt); err != nil {
+								fmt.Println("Error sending WebSocket message:", err)
+								client.Close() // Close the connection if there's an error
+								delete(state.ApiCallClients, client)
+							}
+						}
 					}
 				}
+			} else {
+				print(fmt.Sprintf("error extracting API Type from message: %v, got error: %v", message, err))
 			}
 		}
 		state.ApiCallClientsLock.Unlock()
@@ -103,10 +100,11 @@ func broadcastMessages() {
 
 func main() {
 	// Goroutine to listen on UDP and write to the channel
-	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan, state.LoggingChan})
+	//go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan, state.LoggingChan})
+	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan})
 
 	// Goroutines to read from the channel
-	go writeToConsole(state.LoggingChan)
+	//go writeToConsole(state.LoggingChan)
 
 	// Goroutine to broadcast the UDP data to WebSocket Clients
 	go broadcastMessages()

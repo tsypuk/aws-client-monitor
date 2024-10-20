@@ -31,7 +31,7 @@ func TestNewApiCall(t *testing.T) {
 			want: &ApiCall{
 				Version:                  1,
 				ClientId:                 "test-client",
-				Type:                     "ApiCall",
+				ApiBaseType:              ApiBaseType{Type: "ApiCall"},
 				Service:                  "S3",
 				Api:                      "ListBuckets",
 				Timestamp:                1728846180515,
@@ -53,7 +53,7 @@ func TestNewApiCall(t *testing.T) {
 			want: &ApiCall{
 				Version:             1,
 				ClientId:            "test-client",
-				Type:                "ApiCall",
+				ApiBaseType:         ApiBaseType{Type: "ApiCall"},
 				Service:             "SQS",
 				Api:                 "ListQueues",
 				Timestamp:           1728846984653,
@@ -99,7 +99,7 @@ func TestNewApiCallAttempt(t *testing.T) {
 			want: &ApiCallAttempt{
 				Version:        1,
 				ClientId:       "test-client",
-				Type:           "ApiCallAttempt",
+				ApiBaseType:    ApiBaseType{Type: "ApiCallAttempt"},
 				Service:        "SQS",
 				Api:            "ListQueues",
 				Timestamp:      1728849034025,
@@ -121,7 +121,7 @@ func TestNewApiCallAttempt(t *testing.T) {
 			want: &ApiCallAttempt{
 				Version:             1,
 				ClientId:            "test-client",
-				Type:                "ApiCallAttempt",
+				ApiBaseType:         ApiBaseType{Type: "ApiCallAttempt"},
 				Service:             "SQS",
 				Api:                 "ListQueues",
 				Timestamp:           1728848411600,

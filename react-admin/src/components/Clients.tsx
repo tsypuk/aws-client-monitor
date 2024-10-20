@@ -27,7 +27,7 @@ const Clients: React.FC = () => {
 
     const getSectors = (): Array<{ value: number; color: string }> => {
         const total = Array.from(counter.values()).reduce((acc, count) => acc + count, 0); // Calculate the total count
-        const colorsArray = ["green", "blue", "orange", "red", "purple", "yellow"]; // Define colors for each client
+        const colorsArray = [colors.greenAccent[500], colors.blueAccent[500], "orange", "purple", "yellow"]; // Define colors for each client
 
         let colorIndex = 0; // Track the index of the colors array
 

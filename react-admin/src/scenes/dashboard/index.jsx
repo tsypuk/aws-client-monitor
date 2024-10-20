@@ -207,7 +207,7 @@ const Dashboard = () => {
                     p="30px"
                 >
                     <Typography variant="h5" fontWeight="600">
-                        API Calls Error Rate, %
+                        AWS Services Rate, %
                     </Typography>
                     <Box
                         display="flex"
@@ -253,7 +253,6 @@ const Dashboard = () => {
                         fontWeight="600"
                         sx={{marginBottom: "15px"}}
                     >
-                        Geography Based API Calls Traffic
                         Geography Based API Calls Traffic
                     </Typography>
                     <Box height="200px">

@@ -1,20 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import websocketService, {WebSocketCounter} from '../service/websocketService';
-import StatBox from "./StatBox";
+import websocketService, {ClientsCounter} from '../service/websocketService';
 import {tokens} from "../theme";
 import {useTheme} from "@mui/material";
-import {PointOfSale} from "@mui/icons-material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import StatBoxMulti from "./StatBoxMulti";
 
 const Clients: React.FC = () => {
-    const [counter, setCounter] = useState<number>(0);
+    const [counter, setCounter] = useState<Map<string, number>>(new Map<string, number>());
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     useEffect(() => {
-        const handleCountChange = (newCounter: number) => {
+        const handleCountChange = (newCounter: ClientsCounter) => {
             setCounter(newCounter)
-            console.log(newCounter)
+            // console.log(newCounter)
         };
 
         websocketService.addClientListener(handleCountChange);
@@ -25,11 +25,31 @@ const Clients: React.FC = () => {
         };
     }, []);
 
+    const getSectors = (): Array<{ value: number; color: string }> => {
+        const total = Array.from(counter.values()).reduce((acc, count) => acc + count, 0); // Calculate the total count
+        const colors = ["green", "blue", "orange", "red", "purple", "yellow"]; // Define colors for each client
+
+        let colorIndex = 0; // Track the index of the colors array
+
+        // Generate sectors based on the counter map
+        const sectors = Array.from(counter.entries()).map(([clientId, count]) => {
+            const value = count / total; // Calculate the fraction of the total for this client
+            const color = colors[colorIndex % colors.length]; // Assign a color from the list, looping if needed
+            colorIndex++;
+
+            return { value, color };
+        });
+
+        return sectors;
+    };
+    const sectors = getSectors();
+    // console.log(counter.size)
+
     return (
-        <StatBox
-            title={counter}
+        <StatBoxMulti
+            title={counter.size}
             subtitle="Clients"
-            progress="0.30"
+            progress={sectors}
             increase="+5%"
             icon={
                 <PersonAddIcon

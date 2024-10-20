@@ -27,17 +27,18 @@ const Clients: React.FC = () => {
 
     const getSectors = (): Array<{ value: number; color: string }> => {
         const total = Array.from(counter.values()).reduce((acc, count) => acc + count, 0); // Calculate the total count
-        const colors = ["green", "blue", "orange", "red", "purple", "yellow"]; // Define colors for each client
+        const colorsArray = ["green", "blue", "orange", "red", "purple", "yellow"]; // Define colors for each client
 
         let colorIndex = 0; // Track the index of the colors array
 
         // Generate sectors based on the counter map
         if (counter.size == 0) {
-            return [{value: 1, color: "red"}]
+
+            return [{value: 1, color: colors.redAccent[500]}]
         }
         const sectors = Array.from(counter.entries()).map(([clientId, count]) => {
             const value = count / total; // Calculate the fraction of the total for this client
-            const color = colors[colorIndex % colors.length]; // Assign a color from the list, looping if needed
+            const color = colorsArray[colorIndex % colorsArray.length]; // Assign a color from the list, looping if needed
             colorIndex++;
 
             return {value, color};

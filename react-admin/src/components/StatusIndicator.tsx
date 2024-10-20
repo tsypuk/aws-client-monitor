@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './StatusIndicator.css';
+import websocketService from "../service/websocketService";
 
 const StatusIndicator: React.FC = () => {
     const [status, setStatus] = useState<'green' | 'red'>('red');
@@ -7,9 +8,12 @@ const StatusIndicator: React.FC = () => {
     const checkStatus = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/v1/status'); // Replace with your endpoint
-            console.log(response)
+            // console.log(response)
             if (response.status === 200) {
                 setStatus('green');
+                if (!websocketService.isActive()) {
+                    websocketService.connect()
+                }
             } else {
                 setStatus('red');
             }

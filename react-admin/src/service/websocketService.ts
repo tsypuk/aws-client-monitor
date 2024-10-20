@@ -95,6 +95,16 @@ export class WebSocketService {
         this._clientCounter = newCounter
     }
 
+    isActive() {
+        if (websocketService.socket) {
+            switch (websocketService.socket.readyState) {
+                case WebSocket.CLOSED:
+                    return false
+                default:
+                    return true
+            }
+        }
+    }
 
     connect() {
         this.socket = new WebSocket(this.url);

@@ -5,7 +5,7 @@ import {tokens} from "../theme";
 import {useTheme} from "@mui/material";
 import {PointOfSale} from "@mui/icons-material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
+import PublicIcon from '@mui/icons-material/Public';
 
 const Regions: React.FC = () => {
     const [counter, setCounter] = useState<number>(0);
@@ -33,7 +33,7 @@ const Regions: React.FC = () => {
             progress="0.80"
             increase="+43%"
             icon={
-                <TrafficIcon
+                <PublicIcon
                     sx={{color: colors.greenAccent[600], fontSize: "26px"}}
                 />
             }

@@ -57,10 +57,12 @@ export class WebSocketService {
     private statusListeners: Array<(status: Status) => void>;
     private clientListeners: Array<(count: ClientsCounter) => void>;
     private regionListeners: Array<(count: number) => void>;
+    private serviceListeners: Array<(count: ClientsCounter) => void>;
 
     private _counter: WebSocketCounter;
     private _counterAttempt: WebSocketCounter;
     private _clientCounter: ClientsCounter = new Map<string, number>();
+    private _serviceCounter: ClientsCounter = new Map<string, number>();
     private _regionCounter: Set<string> = new Set();
 
     constructor(url: string) {
@@ -72,6 +74,7 @@ export class WebSocketService {
         this.counterAttemptListeners = [];
         this.clientListeners = [];
         this.regionListeners = [];
+        this.serviceListeners = [];
 
         this._counter = {
             counter200: 0,
@@ -93,6 +96,16 @@ export class WebSocketService {
             newCounter.set(clientId, 1);
         }
         this._clientCounter = newCounter
+    }
+
+    incrementServiceCount(clientId: string) {
+        const newCounter = new Map(this._serviceCounter);
+        if (newCounter.has(clientId)) {
+            newCounter.set(clientId, newCounter.get(clientId)! + 1);
+        } else {
+            newCounter.set(clientId, 1);
+        }
+        this._serviceCounter = newCounter
     }
 
     isActive() {
@@ -135,6 +148,10 @@ export class WebSocketService {
                     this._regionCounter.add(data.Region)
                     this._notifyRegionListeners(this._regionCounter.size)
 
+                    // Process services
+                    this.incrementServiceCount(data.Service)
+                    this._notifyServiceListeners(this._serviceCounter)
+
                     this._notifyListeners(data);
                     this._notifyCounterListeners(this._counter);
                 } else if (dataType.Type === 'ApiCallAttempt') {
@@ -167,6 +184,20 @@ export class WebSocketService {
 
     removeClientListener(listener: (data: ClientsCounter) => void) {
         this.clientListeners = this.clientListeners.filter(l => l !== listener);
+    }
+
+    // service
+
+    private _notifyServiceListeners(data: ClientsCounter) {
+        this.serviceListeners.forEach(listener => listener(data));
+    }
+
+    addServiceListener(listener: (data: ClientsCounter) => void) {
+        this.serviceListeners.push(listener);
+    }
+
+    removeServiceListener(listener: (data: ClientsCounter) => void) {
+        this.serviceListeners = this.serviceListeners.filter(l => l !== listener);
     }
 
     // region

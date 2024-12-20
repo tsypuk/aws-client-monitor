@@ -51,6 +51,28 @@ func listenUDP(port int, ch []chan<- domain.UdpPayload) {
 func writeToConsole(ch <-chan domain.UdpPayload) {
 	for msg := range ch {
 		fmt.Println("Received from channel:", string(msg.Payload))
+
+		fmt.Printf("%+v\n", msg.Payload)
+
+		if apiType, err := domain.NewApiBaseType(msg); err == nil {
+			switch apiType.Type {
+			case "ApiCall":
+				if apiCall, err := domain.NewApiCall(msg); err == nil {
+					if err := apiCall.Validate(); err == nil {
+						fmt.Println("Error sending WebSocket message:", err)
+					}
+					print(apiCall)
+				}
+
+			case "ApiCallAttempt":
+				if apiCallAttempt, err := domain.NewApiCallAttempt(msg); err == nil {
+					if err := apiCallAttempt.Validate(); err == nil {
+						fmt.Println("Error sending WebSocket message:", err)
+					}
+					print(apiCallAttempt)
+				}
+			}
+		}
 	}
 }
 
@@ -100,11 +122,11 @@ func broadcastMessages() {
 
 func main() {
 	// Goroutine to listen on UDP and write to the channel
-	//go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan, state.LoggingChan})
-	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan})
+	go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan, state.LoggingChan})
+	//go listenUDP(31000, []chan<- domain.UdpPayload{state.BroadcastChan})
 
 	// Goroutines to read from the channel
-	//go writeToConsole(state.LoggingChan)
+	go writeToConsole(state.LoggingChan)
 
 	// Goroutine to broadcast the UDP data to WebSocket Clients
 	go broadcastMessages()

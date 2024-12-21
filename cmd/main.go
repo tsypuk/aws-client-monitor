@@ -57,21 +57,20 @@ func writeToConsole(ch <-chan domain.UdpPayload) {
 					if err := apiCall.Validate(); err == nil {
 						//fmt.Println("Error sending WebSocket message:", err)
 					}
-					fmt.Printf("Client:%s ---%dms---> AWS:%s:%s\n", apiCall.ClientId, apiCall.Latency, apiCall.Service, apiCall.Api)
+					t := time.Unix(apiCall.Timestamp/1000, 0).UTC()
+					humanReadable := t.Format("2006-01-02 15:04:05 UTC")
+					fmt.Printf("%s [ Client:%s(%s) ==========> AWS:%s:%s ] : %dms %s Code:%d\n",
+						humanReadable, apiCall.ClientId, apiCall.UserAgent[:25], apiCall.Service, apiCall.Api, apiCall.Latency, apiCall.Region, apiCall.FinalHttpStatusCode)
 				}
 
 			case "ApiCallAttempt":
 				if apiCallAttempt, err := domain.NewApiCallAttempt(msg); err == nil {
 					if err := apiCallAttempt.Validate(); err == nil {
-						// Convert timestamp to Time
 						t := time.Unix(apiCallAttempt.Timestamp/1000, 0).UTC()
-
-						// Format the Time to a human-readable string
 						humanReadable := t.Format("2006-01-02 15:04:05 UTC")
-						fmt.Printf("%s [ Client:%s ==========> AWS:%s:%s(%s) ] : %dms Region:%s\n",
-							humanReadable, apiCallAttempt.ClientId, apiCallAttempt.Service, apiCallAttempt.Api, apiCallAttempt.Fqdn, apiCallAttempt.AttemptLatency, apiCallAttempt.Region)
+						fmt.Printf("%s [ Client:%s(%s) ==========> AWS:%s:%s(%s) ] : %dms %s Code:%d\n",
+							humanReadable, apiCallAttempt.ClientId, apiCallAttempt.UserAgent[:25], apiCallAttempt.Service, apiCallAttempt.Api, apiCallAttempt.Fqdn, apiCallAttempt.AttemptLatency, apiCallAttempt.Region, apiCallAttempt.HttpStatusCode)
 					}
-					print(apiCallAttempt)
 				}
 			}
 		}

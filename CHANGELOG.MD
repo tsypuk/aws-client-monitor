@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v0.0.11](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.11) - 2024-12-21
+
+<small>[Compare with v0.0.10](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.10...v0.0.11)</small>
+
+### Features
+
+- api call & attempt console output updated ([28aa9d4](https://github.com/tsypuk/aws-client-monitor/commit/28aa9d4cd70a15a31581887bc4fb7be1edd25ec3) by Roman Tsypuk).
+- updated cli output ([081f17c](https://github.com/tsypuk/aws-client-monitor/commit/081f17cf99c900edabcf671b3d832cf588d5d38e) by Roman Tsypuk).
+- logging to console subscription ([b542a1e](https://github.com/tsypuk/aws-client-monitor/commit/b542a1e7d9845c632b1683f44667f4d3676d6e1a) by Roman Tsypuk).
+- ui updated ([dece98e](https://github.com/tsypuk/aws-client-monitor/commit/dece98ee513ba431b5ce21c6fccf382b6d66c79d) by Roman Tsypuk).
+- websocket reconnect on backend available ([9d03c94](https://github.com/tsypuk/aws-client-monitor/commit/9d03c949273f0dca380f02259cfef28d156670b8) by Roman Tsypuk).
+- default color for clients dashboard ([4efcc99](https://github.com/tsypuk/aws-client-monitor/commit/4efcc99f868916edbfb029eb6fc3f0caa565c072) by Roman Tsypuk).
+- default color for empty clients ([e7cd9c9](https://github.com/tsypuk/aws-client-monitor/commit/e7cd9c96c6aa84a4c6d18787aaf06e6d84f31d86) by Roman Tsypuk).
+
+### Chore
+
+- move to color pallete ([fef7f3e](https://github.com/tsypuk/aws-client-monitor/commit/fef7f3ecae78fdb5dd43d23a46a15b93cfc3e3ed) by Roman Tsypuk).
+- updated eslints ([b08d540](https://github.com/tsypuk/aws-client-monitor/commit/b08d5404b99c964df688531920c1db63601e9d49) by Roman Tsypuk).
+
 ## [v0.0.10](https://github.com/tsypuk/aws-client-monitor/releases/tag/v0.0.10) - 2024-10-20
 
 <small>[Compare with v0.0.9](https://github.com/tsypuk/aws-client-monitor/compare/v0.0.9...v0.0.10)</small>

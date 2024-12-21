@@ -50,24 +50,26 @@ func listenUDP(port int, ch []chan<- domain.UdpPayload) {
 
 func writeToConsole(ch <-chan domain.UdpPayload) {
 	for msg := range ch {
-		fmt.Println("Received from channel:", string(msg.Payload))
-
-		fmt.Printf("%+v\n", msg.Payload)
-
 		if apiType, err := domain.NewApiBaseType(msg); err == nil {
 			switch apiType.Type {
 			case "ApiCall":
 				if apiCall, err := domain.NewApiCall(msg); err == nil {
 					if err := apiCall.Validate(); err == nil {
-						fmt.Println("Error sending WebSocket message:", err)
+						//fmt.Println("Error sending WebSocket message:", err)
 					}
-					print(apiCall)
+					fmt.Printf("Client:%s ---%dms---> AWS:%s:%s\n", apiCall.ClientId, apiCall.Latency, apiCall.Service, apiCall.Api)
 				}
 
 			case "ApiCallAttempt":
 				if apiCallAttempt, err := domain.NewApiCallAttempt(msg); err == nil {
 					if err := apiCallAttempt.Validate(); err == nil {
-						fmt.Println("Error sending WebSocket message:", err)
+						// Convert timestamp to Time
+						t := time.Unix(apiCallAttempt.Timestamp/1000, 0).UTC()
+
+						// Format the Time to a human-readable string
+						humanReadable := t.Format("2006-01-02 15:04:05 UTC")
+						fmt.Printf("%s [ Client:%s ==========> AWS:%s:%s(%s) ] : %dms Region:%s\n",
+							humanReadable, apiCallAttempt.ClientId, apiCallAttempt.Service, apiCallAttempt.Api, apiCallAttempt.Fqdn, apiCallAttempt.AttemptLatency, apiCallAttempt.Region)
 					}
 					print(apiCallAttempt)
 				}
@@ -94,7 +96,7 @@ func broadcastMessages() {
 					if apiCall, err := domain.NewApiCall(message); err == nil {
 						if err := apiCall.Validate(); err == nil {
 							if err = client.WriteJSON(apiCall); err != nil {
-								fmt.Println("Error sending WebSocket message:", err)
+								//fmt.Println("Error sending WebSocket message:", err)
 								client.Close() // Close the connection if there's an error
 								delete(state.ApiCallClients, client)
 							}
@@ -105,7 +107,7 @@ func broadcastMessages() {
 					if apiCallAttempt, err := domain.NewApiCallAttempt(message); err == nil {
 						if err := apiCallAttempt.Validate(); err == nil {
 							if err = client.WriteJSON(apiCallAttempt); err != nil {
-								fmt.Println("Error sending WebSocket message:", err)
+								//fmt.Println("Error sending WebSocket message:", err)
 								client.Close() // Close the connection if there's an error
 								delete(state.ApiCallClients, client)
 							}

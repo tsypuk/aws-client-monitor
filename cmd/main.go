@@ -55,12 +55,13 @@ func writeToConsole(ch <-chan domain.UdpPayload) {
 			case "ApiCall":
 				if apiCall, err := domain.NewApiCall(msg); err == nil {
 					if err := apiCall.Validate(); err == nil {
-						//fmt.Println("Error sending WebSocket message:", err)
+						t := time.Unix(apiCall.Timestamp/1000, 0).UTC()
+						humanReadable := t.Format("2006-01-02 15:04:05 UTC")
+						fmt.Printf("%s [ Client:%s(%s) ==========> AWS:%s:%s ] : %dms %s Code:%d\n",
+							humanReadable, apiCall.ClientId, apiCall.UserAgent[:25], apiCall.Service, apiCall.Api, apiCall.Latency, apiCall.Region, apiCall.FinalHttpStatusCode)
+					} else {
+						fmt.Println("Error event validation")
 					}
-					t := time.Unix(apiCall.Timestamp/1000, 0).UTC()
-					humanReadable := t.Format("2006-01-02 15:04:05 UTC")
-					fmt.Printf("%s [ Client:%s(%s) ==========> AWS:%s:%s ] : %dms %s Code:%d\n",
-						humanReadable, apiCall.ClientId, apiCall.UserAgent[:25], apiCall.Service, apiCall.Api, apiCall.Latency, apiCall.Region, apiCall.FinalHttpStatusCode)
 				}
 
 			case "ApiCallAttempt":
@@ -70,6 +71,8 @@ func writeToConsole(ch <-chan domain.UdpPayload) {
 						humanReadable := t.Format("2006-01-02 15:04:05 UTC")
 						fmt.Printf("%s [ Client:%s(%s) ==========> AWS:%s:%s(%s) ] : %dms %s Code:%d\n",
 							humanReadable, apiCallAttempt.ClientId, apiCallAttempt.UserAgent[:25], apiCallAttempt.Service, apiCallAttempt.Api, apiCallAttempt.Fqdn, apiCallAttempt.AttemptLatency, apiCallAttempt.Region, apiCallAttempt.HttpStatusCode)
+					} else {
+						fmt.Println("Error event validation")
 					}
 				}
 			}
